@@ -1,18 +1,38 @@
 export default class Component {
-    get template() {
-        return this._template;
+    get $template() {
+        return this._$template;
     }
 
-    set template(template) {
-        this._template = template;
+    set $template(template) {
+        this._$template = template;
     }
 
-    constructor(tag) {
+    set $propertyChanged(b) {
+        this._$propertyChanged = b;
+    }
+
+    get $propertyChanged() {
+        return this._$propertyChanged;
+    }
+
+    set $propertyChanged(b) {
+        this._$propertyChanged = b;
+    }
+
+    get $propertyChanged() {
+        return this._$propertyChanged;
+    }
+
+    $injectTag(tag) {
         this.tag = tag;
-        this._template = '';
     }
 
-    render() {
-        this.template;
+    $render() {
+        let template = this.$template;
+        template = template.replace(/\[(\w)+\]/g, v => {
+            const propertyName = v.substring(1, v.length - 1);
+            return (this[propertyName]) ? this[propertyName].toString() : '';
+        });
+        return template;
     }
 }

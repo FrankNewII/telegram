@@ -1,17 +1,16 @@
 import Components from '../common/Components'
 import Http from "../services/http";
 import Component from "./Component";
-import template from "../../templates/main-component.pug";
-import ChildComponent from "./ChildComponent";
+import template from "../../templates/sing-in.pug"
 
-export default class MainComponent extends Component {
+export default class Child2Component extends Component {
 
-    static get components() {
-        return [ChildComponent];
+    static get parentsProperties() {
+        return {bass: null, ass: null};
     }
 
     static get name() {
-        return 'main-component';
+        return 'child2-component';
     }
 
     static get dependencies() {
@@ -28,10 +27,9 @@ export default class MainComponent extends Component {
 
     init() {
         console.log(this);
-        window.ttt = this;
-        this.ass = 'Bad ass';
-        this.bass = 'Super Bass parent'
+        this.bass = this.parentsProperties.bass;
+        this.ass = this.parentsProperties.ass;
     }
 }
 
-Components.add(MainComponent);
+Components.add(Child2Component);
