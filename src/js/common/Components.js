@@ -1,8 +1,9 @@
 import DI from "./DI";
-import PropertyListener from "./PropertyListener";
+import Listener from "./Listener";
 
-class Components {
+class Components extends Listener {
     constructor() {
+        super();
         this.components = new Map();
     }
 
@@ -28,15 +29,18 @@ class Components {
         instance.$template = klass.template;
         instance.inject.call(instance, instances);
 
-        if (klass.parentsProperties && parent) {
-            this._parentsPropertiesData(instance, parent, klass.parentsProperties);
-            this._parentsListenProperties(instance, parent, klass.parentsProperties);
+        if (klass.inputs && parent) {
+            const propertiesAliases = this._getBoundAttributes(tag, klass.inputs);
+            this._parentsPropertiesData(instance, parent, propertiesAliases);
+            this._parentsListenProperties(instance, parent, propertiesAliases);
+            instance._$properitesAliases = propertiesAliases;
+            instance._$parent = parent;
+            console.log(instance);
         }
 
 
         if (instance.init) instance.init();
         tag.innerHTML = instance.$render();
-        console.log(klass.components);
         if (klass.components) this._searchChildComponents(klass.components, instance, tag);
 
         return instance;
@@ -48,39 +52,6 @@ class Components {
 
             tags.forEach(t => this.get(component, t, instance));
         });
-    }
-
-    _parentsListenProperties(component, parent, listenProperties) {
-
-        Object.keys(listenProperties).forEach(propertyName => {
-            if (parent['$listeners' + propertyName]) {
-                parent['$listeners' + propertyName].add(component);
-            } else {
-                const lastValue = parent[propertyName];
-
-                Object.defineProperty(parent, propertyName, {
-                    get: () => parent['_$' + propertyName],
-                    set: newValue => {
-                        parent['_$' + propertyName] = newValue;
-                        parent['$listeners' + propertyName].update();
-                    }
-                });
-
-                parent['_$' + propertyName] = lastValue;
-
-                this._addPropertyListener(parent, propertyName).add(component);
-            }
-        });
-    }
-
-    _parentsPropertiesData(instance, parent, listenProperties) {
-        const objectData = {};
-        Object.keys(listenProperties).forEach(k => objectData[k] = parent[k]);
-        instance.parentsProperties = objectData;
-    }
-
-    _addPropertyListener(component, propertyName) {
-        return parent['$listeners' + propertyName] = new PropertyListener(component, propertyName);
     }
 
 }

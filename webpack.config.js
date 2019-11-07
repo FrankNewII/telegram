@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 const config = {
@@ -19,7 +20,10 @@ const config = {
         ),
         new HtmlWebpackPlugin({
             template: './src/templates/index.pug',
-        })
+        }),
+        new CopyWebpackPlugin([
+            {from:'src/images',to:'images'}
+        ]),
     ],
     module: {
         rules: [
@@ -34,7 +38,12 @@ const config = {
                         fallback: 'style-loader',
                         use: ['css-loader', 'sass-loader']
                     })
-            }
+            },
+            {
+                test: /\.png$/,
+                use: 'url-loader?mimetype=image/png'
+            },
+
         ]
     }
 };

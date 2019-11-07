@@ -30,7 +30,11 @@ export default class MainComponent extends Component {
         console.log(this);
         window.ttt = this;
         this.ass = 'Bad ass';
-        this.bass = 'Super Bass parent'
+        this.bass2 = 'Super Bass parent';
+        setTimeout( () => {
+            this.bass2 = 'Super Bass parent Changed';
+        }, 2000);
+
     }
 }
 

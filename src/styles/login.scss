@@ -3,8 +3,7 @@ $padding: 20px;
 $paddingTop: 105px;
 .sing-in-container {
   width: $width;
-  padding: $padding;
-  padding-top: $paddingTop;
+  padding: $paddingTop $padding;
   margin: 0 auto;
 
   .header {
@@ -19,6 +18,13 @@ $paddingTop: 105px;
     line-height: 1.5;
     color: rgb(113, 117, 121);
     text-align: center;
+    padding: 0 85px;
+  }
+
+  .image {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
   }
 }
 

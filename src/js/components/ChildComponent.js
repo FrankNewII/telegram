@@ -6,7 +6,7 @@ import Child2Component from "./Child2Component";
 
 export default class ChildComponent extends Component {
 
-    static get parentsProperties() {
+    static get inputs() {
         return {bass: null};
     }
 
@@ -31,10 +31,14 @@ export default class ChildComponent extends Component {
     }
 
     init() {
-        console.log(this);
         window.bbb = this;
-        this.bass = this.parentsProperties.bass;
+        this.bass = this.inputs.bass;
+
         this.ass = 'Child1';
+    }
+
+    changesProperties() {
+        this.bass = this.inputs.bass;
     }
 }
 

@@ -15,14 +15,6 @@ export default class Component {
         return this._$propertyChanged;
     }
 
-    set $propertyChanged(b) {
-        this._$propertyChanged = b;
-    }
-
-    get $propertyChanged() {
-        return this._$propertyChanged;
-    }
-
     $injectTag(tag) {
         this.tag = tag;
     }

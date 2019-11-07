@@ -1,8 +1,9 @@
 export default class PropertyListener {
-    constructor(component, propertyName) {
+    constructor(component, childrenPropertyName, parentPropertyName) {
         this.listeners = [];
         this.component = component;
-        this.propertyName = propertyName;
+        this.childrenPropertyName = childrenPropertyName;
+        this.parentPropertyName = parentPropertyName;
     }
 
     add(component) {
@@ -24,9 +25,10 @@ export default class PropertyListener {
     }
 
     update() {
-        const v = this.component['_$' + this.propertyName];
+        console.log(this.parentPropertyName, this.component);
+        const v = this.component['_$' + this.parentPropertyName];
         this.listeners.forEach( c => {
-            c.parentsProperties[this.propertyName] = v;
+            c.inputs[this.childrenPropertyName] = v;
 
             if(c.changesProperties) {
                 c.changesProperties();
