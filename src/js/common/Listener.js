@@ -1,10 +1,10 @@
 import PropertyListener from "./PropertyListener";
+import Emitter from "./Emitter";
 
-export default class Listener {
+export default class Listener extends Emitter {
     _parentsListenProperties(component, parent, listenProperties) {
 
         Object.entries(listenProperties).forEach(([childrenProperty, parentProperty]) => {
-            console.log(childrenProperty, parentProperty);
             if (parent['$listeners' + parentProperty]) {
                 parent['$listeners' + parentProperty].add(component);
             } else {
@@ -25,25 +25,13 @@ export default class Listener {
         });
     }
 
-    _getBoundAttributes(tag, listenProperties) {
-        const nameProperties = {};
-        Object.keys(listenProperties).forEach(k => {
-            const propertyName = tag.getAttribute(k + '|');
-
-            if (propertyName) nameProperties[k] = propertyName;
-
-        });
-        return nameProperties;
-    }
-
-    _parentsPropertiesData(instance, parent, listenProperties) {
+    _parentsPropertiesData(instance, parent, listenProperties, defaultParams) {
         const objectData = {};
         Object.entries(listenProperties).forEach(([childrenProperty, parentProperty]) => objectData[childrenProperty] = parent[parentProperty]);
-        instance.inputs = objectData;
+        instance.inputs = Object.assign({}, defaultParams, objectData);
     }
 
     _addPropertyListener(component, childrenPropertyName, parentPropertyName) {
-        debugger;
         return component['$listeners' + parentPropertyName] = new PropertyListener(component, childrenPropertyName, parentPropertyName);
     }
 

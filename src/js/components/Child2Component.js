@@ -1,12 +1,11 @@
-import Components from '../common/Components'
 import Http from "../services/http";
-import Component from "./Component";
+import PrototypeComponent from "../common/PrototypeComponent";
 import template from "../../templates/sing-in.pug"
 
-export default class Child2Component extends Component {
+export default class Child2Component extends PrototypeComponent {
 
     static get inputs() {
-        return {bass: null, ass: null};
+        return {test: '12121', ass: null};
     }
 
     static get name() {
@@ -26,10 +25,14 @@ export default class Child2Component extends Component {
     }
 
     init() {
-        console.log(this);
         this.bass = this.inputs.bass;
         this.ass = this.inputs.ass;
+        this.test = this.inputs.test;
+    }
+
+    changesProperties() {
+        this.ass = this.inputs.bass;
+        this.test = this.inputs.test;
+        this.tag.innerHTML = this.$render();
     }
 }
-
-Components.add(Child2Component);

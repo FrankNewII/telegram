@@ -25,13 +25,12 @@ export default class PropertyListener {
     }
 
     update() {
-        console.log(this.parentPropertyName, this.component);
         const v = this.component['_$' + this.parentPropertyName];
         this.listeners.forEach( c => {
             c.inputs[this.childrenPropertyName] = v;
 
             if(c.changesProperties) {
-                c.changesProperties();
+                c.changesProperties(this.childrenPropertyName);
             }
         });
     }

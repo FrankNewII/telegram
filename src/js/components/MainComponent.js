@@ -1,10 +1,9 @@
-import Components from '../common/Components'
 import Http from "../services/http";
-import Component from "./Component";
+import PrototypeComponent from "../common/PrototypeComponent";
 import template from "../../templates/main-component.pug";
 import ChildComponent from "./ChildComponent";
 
-export default class MainComponent extends Component {
+export default class MainComponent extends PrototypeComponent {
 
     static get components() {
         return [ChildComponent];
@@ -27,15 +26,14 @@ export default class MainComponent extends Component {
     }
 
     init() {
-        console.log(this);
         window.ttt = this;
         this.ass = 'Bad ass';
         this.bass2 = 'Super Bass parent';
-        setTimeout( () => {
-            this.bass2 = 'Super Bass parent Changed';
-        }, 2000);
 
     }
-}
 
-Components.add(MainComponent);
+    event(data) {
+        this.bass2 = data.event;
+        console.log(data);
+    }
+}

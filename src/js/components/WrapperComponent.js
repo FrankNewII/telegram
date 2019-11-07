@@ -1,10 +1,10 @@
 import Components from '../common/Components'
 import Http from "../services/http";
-import Component from "./Component";
+import PrototypeComponent from "../common/PrototypeComponent";
 import template from "../../templates/child-component.pug"
 import Child2Component from "./Child2Component";
 
-export default class ChildComponent extends Component {
+export default class ChildComponent extends PrototypeComponent {
 
     static get inputs() {
         return {bass: null};

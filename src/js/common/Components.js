@@ -1,5 +1,6 @@
 import DI from "./DI";
 import Listener from "./Listener";
+import PrototypeComponent from "./PrototypeComponent";
 
 class Components extends Listener {
     constructor() {
@@ -7,40 +8,20 @@ class Components extends Listener {
         this.components = new Map();
     }
 
-    add(component) {
-        if (!component.name) throw new Error('Component must have property "name"');
-        this.components.set(component, component);
-    }
+    build(klass, tag, parent) {
+        if (!klass.name) throw new Error('PrototypeComponent must have property "name"');
 
-    get(component, tag, parent) {
-        console.log(component);
-        const instances = [];
-        const klass = this.components.get(component);
-        if (!klass) throw new Error('Component was not added');
+        if (!klass instanceof PrototypeComponent) throw new Error('PrototypeComponent should inherit PrototypeComponent or implement his interface');
 
         const instance = new klass();
 
-        instance.$injectTag(tag);
-
-        for (let i = 0; i < klass.dependencies.length; i++) {
-            instances.push(DI.get(klass.dependencies[i]));
-        }
-
-        instance.$template = klass.template;
-        instance.inject.call(instance, instances);
-
-        if (klass.inputs && parent) {
-            const propertiesAliases = this._getBoundAttributes(tag, klass.inputs);
-            this._parentsPropertiesData(instance, parent, propertiesAliases);
-            this._parentsListenProperties(instance, parent, propertiesAliases);
-            instance._$properitesAliases = propertiesAliases;
-            instance._$parent = parent;
-            console.log(instance);
-        }
-
+        this._prepareDom(instance, klass, tag)
+            ._injectDependencies(klass, instance)
+            ._bindInputs(klass, tag, instance)
+            ._bidOutputs(klass, parent, instance, tag);
 
         if (instance.init) instance.init();
-        tag.innerHTML = instance.$render();
+        instance.$render();
         if (klass.components) this._searchChildComponents(klass.components, instance, tag);
 
         return instance;
@@ -50,10 +31,47 @@ class Components extends Listener {
         components.forEach(component => {
             const tags = tag.querySelectorAll(component.name);
 
-            tags.forEach(t => this.get(component, t, instance));
+            tags.forEach(t => this.build(component, t, instance));
         });
     }
 
+    _injectDependencies(klass, instance) {
+        const instances = [];
+
+        for (let i = 0; i < klass.dependencies.length; i++) {
+            instances.push(DI.get(klass.dependencies[i]));
+        }
+
+        instance.inject.call(instance, instances);
+
+        return this;
+    }
+
+    _bindInputs(klass, tag, instance) {
+        if (klass.inputs && parent) {
+            const propertiesAliases = this.getBoundAttributes(tag, klass.inputs, false);
+            this._parentsPropertiesData(instance, parent, propertiesAliases, klass.inputs);
+            this._parentsListenProperties(instance, parent, propertiesAliases);
+            instance._$properitesAliases = propertiesAliases;
+            instance._$parent = parent;
+        }
+
+        return this;
+    }
+
+    _bidOutputs(klass, parent, instance, tag) {
+        if (klass.outputs && parent) {
+            const propertiesAliases = this.getBoundAttributes(tag, klass.outputs);
+            this.parentsListenFunctions(instance, parent, propertiesAliases);
+        }
+    }
+
+    _prepareDom(instance, klass, tag) {
+        instance.$template = klass.template;
+        instance.$init(tag);
+
+        return this;
+    }
 }
 
 const components = new Components();
