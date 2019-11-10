@@ -36,13 +36,13 @@ export default class PrototypeComponent {
             this.$updateView(parsedTemplate);
         }
     }
- в
+
     $getParsedTemplate(template = this.$template, data = this) {
         return template.replace('[[insertComponent]]', this.innerHtml)
             .replace(/\[(\w)+\]/g, v => {
                 const propertyName = v.substring(1, v.length - 1);
                 return (data[propertyName] !== undefined) ? data[propertyName] : v;
-            });;
+            });
     }
 
     $updateView(view) {
