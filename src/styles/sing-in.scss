@@ -1,0 +1,78 @@
+@import "colors";
+
+$width: 360px;
+$padding: 20px;
+$paddingTop: 105px;
+.sing-in-container {
+  width: $width;
+  padding: $paddingTop $padding;
+  margin: 0 auto;
+
+  .header {
+    font-size: 30px;
+    line-height: 1;
+    color: #000;
+    text-align: center;
+  }
+
+  .notice {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgb(113, 117, 121);
+    text-align: center;
+    padding: 25px 65px;
+  }
+
+  .image {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 50px;
+  }
+
+  inputs-wrapper {
+    margin: 25px 0;
+    display: block;
+  }
+
+  autocomplete-component {
+    .option {
+      cursor: pointer;
+
+      &:hover {
+        color: $light-blue;
+        background-color: rgb(234, 240, 249);
+      }
+
+      &:after {
+        clear: both;
+        display: block;
+        content: '';
+      }
+
+      font-size: 16px;
+        .flag {
+        display: inline-block;
+        width: 50px;
+      }
+
+      .title {
+        padding-left: 20px;
+        color: #000;
+      }
+
+      .phone-code {
+        float: right;
+        padding-right: 15px;
+        color: $light-gray;
+      }
+    }
+  }
+}
+
+@media only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2) {
+
+}

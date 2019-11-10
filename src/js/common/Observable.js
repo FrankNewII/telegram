@@ -1,4 +1,4 @@
-export default class PropertyListener {
+export default class Observable {
     constructor(component, childrenPropertyName, parentPropertyName) {
         this.listeners = [];
         this.component = component;

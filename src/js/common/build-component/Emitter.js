@@ -1,5 +1,7 @@
+import EventHandler from "./EventHandler";
+
 const noop = () => console.log('Event');
-export default class Emitter {
+export default class Emitter extends EventHandler{
     parentsListenFunctions(component, parent, listenEvents) {
         component.outputs = listenEvents;
         Object.entries(listenEvents).forEach(([childrenOutput, parentListener]) => {
@@ -12,7 +14,7 @@ export default class Emitter {
     getBoundAttributes(tag, listenProperties, outputs = true) {
         const nameProperties = {};
         Object.keys(listenProperties).forEach(k => {
-            const propertyName = tag.getAttribute(k + ( outputs ? '?' : '|' ));
+            const propertyName = tag.getAttribute( 'data-' + ( outputs ? 'output' : 'input' ) + '-' + k);
 
             if (propertyName) nameProperties[k] = propertyName;
 

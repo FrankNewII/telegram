@@ -1,12 +1,12 @@
-import Http from "../services/http";
-import PrototypeComponent from "../common/PrototypeComponent";
-import template from "../../templates/main-component.pug";
-import ChildComponent from "./ChildComponent";
+import Http from "../../services/http";
+import PrototypeComponent from "../../common/PrototypeComponent";
+import template from "./main-component.pug";
+import SingIn from "../sing-in/SingIn";
 
 export default class MainComponent extends PrototypeComponent {
 
     static get components() {
-        return [ChildComponent];
+        return [SingIn];
     }
 
     static get name() {
@@ -30,10 +30,5 @@ export default class MainComponent extends PrototypeComponent {
         this.ass = 'Bad ass';
         this.bass2 = 'Super Bass parent';
 
-    }
-
-    event(data) {
-        this.bass2 = data.event;
-        console.log(data);
     }
 }

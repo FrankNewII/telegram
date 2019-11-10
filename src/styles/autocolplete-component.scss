@@ -1,0 +1,37 @@
+@import './colors';
+
+autocomplete-component {
+  .container {
+    height: 100%;
+  }
+
+  &.active {
+    .options-container {
+      overflow-y: scroll;
+      opacity: 1;
+      max-height: 350px;
+    }
+  }
+
+  .option {
+    line-height: 50px;
+    height: 50px;
+    background-color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+
+  .options-container {
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+    z-index: 1;
+    padding: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 5px $light-gray;
+    opacity: 0;
+    max-height: 0px;
+    transition: max-height .6s, opacity .4s;
+    top: 15px;
+  }
+}

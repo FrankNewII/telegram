@@ -1,13 +1,8 @@
-import DI from "./DI";
-import Listener from "./Listener";
-import PrototypeComponent from "./PrototypeComponent";
+import DI from "../DI";
+import CheckerProperties from "./CheckerProperties";
+import PrototypeComponent from "../PrototypeComponent";
 
-class Components extends Listener {
-    constructor() {
-        super();
-        this.components = new Map();
-    }
-
+class ComponentsBuilder extends CheckerProperties {
     build(klass, tag, parent) {
         if (!klass.name) throw new Error('PrototypeComponent must have property "name"');
 
@@ -17,11 +12,13 @@ class Components extends Listener {
 
         this._prepareDom(instance, klass, tag)
             ._injectDependencies(klass, instance)
-            ._bindInputs(klass, tag, instance)
+            ._bindInputs(klass, tag, instance, parent)
             ._bidOutputs(klass, parent, instance, tag);
 
         if (instance.init) instance.init();
         instance.$render();
+        tag.component = instance;
+        if (klass.listenEvents) this.appendEventsListeners(tag, klass.listenEvents, instance);
         if (klass.components) this._searchChildComponents(klass.components, instance, tag);
 
         return instance;
@@ -36,18 +33,21 @@ class Components extends Listener {
     }
 
     _injectDependencies(klass, instance) {
-        const instances = [];
 
-        for (let i = 0; i < klass.dependencies.length; i++) {
-            instances.push(DI.get(klass.dependencies[i]));
+        if (klass.dependencies) {
+            const instances = [];
+
+            for (let i = 0; i < klass.dependencies.length; i++) {
+                instances.push(DI.get(klass.dependencies[i]));
+            }
+
+            instance.dependencies = instances;
         }
-
-        instance.inject.call(instance, instances);
 
         return this;
     }
 
-    _bindInputs(klass, tag, instance) {
+    _bindInputs(klass, tag, instance, parent) {
         if (klass.inputs && parent) {
             const propertiesAliases = this.getBoundAttributes(tag, klass.inputs, false);
             this._parentsPropertiesData(instance, parent, propertiesAliases, klass.inputs);
@@ -74,6 +74,6 @@ class Components extends Listener {
     }
 }
 
-const components = new Components();
+const components = new ComponentsBuilder();
 
 export default components;

@@ -1,0 +1,43 @@
+@import './colors';
+
+inputs-wrapper {
+  &.active {
+    .wrapper {
+      border-color: $light-blue;
+      color: $light-blue;
+    }
+  }
+
+  .wrapper {
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid $light-gray;
+    border-radius: 4px;
+    position: relative;
+    color: $text-gray;
+
+    .label {
+      font-size: 14px;
+      line-height: 1;
+      position: absolute;
+      top: -50%;
+      left: 20px;
+      background-color: #fff;
+      padding: 0 5px;
+      transform: translate(0, 100%);
+    }
+
+    input {
+      font-size: 16px;
+      width: 100%;
+      border: none;
+      line-height: inherit;
+      height: 30px;
+      background-color: transparent;
+      padding: 0 15px;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

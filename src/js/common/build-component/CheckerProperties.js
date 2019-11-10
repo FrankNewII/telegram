@@ -1,7 +1,7 @@
-import PropertyListener from "./PropertyListener";
+import Observable from "../Observable";
 import Emitter from "./Emitter";
 
-export default class Listener extends Emitter {
+export default class CheckerProperties extends Emitter {
     _parentsListenProperties(component, parent, listenProperties) {
 
         Object.entries(listenProperties).forEach(([childrenProperty, parentProperty]) => {
@@ -32,7 +32,7 @@ export default class Listener extends Emitter {
     }
 
     _addPropertyListener(component, childrenPropertyName, parentPropertyName) {
-        return component['$listeners' + parentPropertyName] = new PropertyListener(component, childrenPropertyName, parentPropertyName);
+        return component['$listeners' + parentPropertyName] = new Observable(component, childrenPropertyName, parentPropertyName);
     }
 
 }
