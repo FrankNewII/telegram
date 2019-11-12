@@ -1,12 +1,20 @@
 import Observable from "../Observable";
 import Emitter from "./Emitter";
+import {addPropertyEventEmitter} from "../functions/addPropertyEventEmitter";
 
+function updateChildrenProperties(c, v) {
+    c.inputs[this.propertyName] = v;
+
+    if(c.changesProperties) {
+        c.changesProperties(this.propertyName);
+    }
+}
 export default class CheckerProperties extends Emitter {
     _parentsListenProperties(component, parent, listenProperties) {
 
         Object.entries(listenProperties).forEach(([childrenProperty, parentProperty]) => {
             if (parent['$listeners' + parentProperty]) {
-                parent['$listeners' + parentProperty].add(component);
+                parent['$listeners' + parentProperty].add(component, updateChildrenProperties);
             } else {
                 const lastValue = parent[parentProperty];
 
@@ -20,7 +28,7 @@ export default class CheckerProperties extends Emitter {
 
                 parent['_$' + parentProperty] = lastValue;
 
-                this._addPropertyListener(parent, childrenProperty, parentProperty).add(component);
+                addPropertyEventEmitter(parent, parentProperty).add(component, updateChildrenProperties);
             }
         });
     }
@@ -31,9 +39,6 @@ export default class CheckerProperties extends Emitter {
         instance.inputs = Object.assign({}, defaultParams, objectData);
     }
 
-    _addPropertyListener(component, childrenPropertyName, parentPropertyName) {
-        return component['$listeners' + parentPropertyName] = new Observable(component, childrenPropertyName, parentPropertyName);
-    }
 
 }
 

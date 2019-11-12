@@ -50,7 +50,6 @@ export default class AutocompleteComponent extends PrototypeComponent {
 
     select(event) {
         const id = event.target.dataset.forIndex;
-        this.outputs.changed(this.data[+id]);
-        console.log(id, this.data[id]);
+        this.outputs.changed(id);
     }
 }

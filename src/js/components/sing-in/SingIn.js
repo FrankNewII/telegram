@@ -32,55 +32,47 @@ export default class SingIn extends PrototypeComponent {
 
     init() {
         this.countriesLabel = 'Country';
+
+        setTimeout( v => this.countriesLabel = 'aaa', 2000);
         this.phoneNumberLabel = 'Phone Number';
-        this.label = 'Select Country';
         this.phoneCode = '';
         this.countries = [{
             country: 'France',
             code: 'fr',
-            phoneCode: '+380'
+            phoneCode: '+1'
         }, {
             country: 'France',
             code: 'fr',
-            phoneCode: '+380'
+            phoneCode: '+2'
         }, {
             country: 'France',
             code: 'fr',
-            phoneCode: '+380'
+            phoneCode: '+3'
         }, {
             country: 'France',
             code: 'fr',
-            phoneCode: '+380'
+            phoneCode: '+4'
         }, {
             country: 'France',
             code: 'fr',
-            phoneCode: '+380'
+            phoneCode: '+5'
         }, {
             country: 'France',
             code: 'fr',
-            phoneCode: '+380'
+            phoneCode: '+6'
         }, {
             country: 'France',
             code: 'fr',
-            phoneCode: '+380'
+            phoneCode: '+7'
         }, {
             country: 'France',
             code: 'fr',
-            phoneCode: '+380'
-        }, {
-            country: 'France',
-            code: 'fr',
-            phoneCode: '+380'
-        }, {
-            country: 'France',
-            code: 'fr',
-            phoneCode: '+380'
+            phoneCode: '+8'
         }];
     }
 
-    countryChanged(data) {
-        this.phoneCode = data.phoneCode;
-        this.$render();
+    countryChanged(idx) {
+        this.phoneCode = this.countries[idx].phoneCode;
     }
 
     clickHandler(event) {

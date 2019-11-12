@@ -3,12 +3,14 @@
     .labels-container
         img.image(srcset="../images/Login_1@1x.png 1x, ../images/Login_1@2x.png 2x, ../images/Login_1@3x.png 3x")
         .header='Sing in to Telegram'
-        .notice='Please confirm your country and enter your phone number.'
+        .notice='[phoneCode] Please confirm your country and enter your phone number.'
     inputs-wrapper(data-input-label='countriesLabel')
-        autocomplete-component(class='select-country' data-input-data='countries' placeholder='Country' data-output-changed='countryChanged')
-            span(class='flag [code]')
-            span.title='[country]'
-            span.phone-code='[phoneCode]'
+        autocomplete-component(class='select-country' placeholder='Country' data-output-changed='countryChanged')
+            .option(data-for='countries' data-element-ref='option')
+                span(class='flag')
+                span.title='[country]'
+                span.phone-code='[phoneCode]'
     inputs-wrapper(data-input-label='phoneNumberLabel')
-        span.phone-code='[phoneCode]'
+        .phone-number
+            span.phone-code='[phoneCode]'
             input(class='select-country')

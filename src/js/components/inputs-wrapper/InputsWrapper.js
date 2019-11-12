@@ -32,6 +32,7 @@ export default class InputsWrapper extends PrototypeComponent {
 
     init() {
         this.label = this.inputs.label;
+        console.log(this);
     }
 
     focus(ev) {

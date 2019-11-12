@@ -1,3 +1,11 @@
+import {addPropertyEventEmitter} from "./functions/addPropertyEventEmitter";
+
+function updateNode(template) {
+    return function (v) {
+        v.nodeValue = template.replace('[' + this.propertyName + ']', this.component[this.propertyName])
+    }
+}
+
 export default class PrototypeComponent {
     get $template() {
         return this._$template;
@@ -17,14 +25,25 @@ export default class PrototypeComponent {
 
     $init(tag) {
         this.$tag = tag;
-        this.innerHtml = tag.innerHTML;
+        const fr = document.createDocumentFragment();
+        const children = tag.childNodes;
+
+        while (children.length) fr.appendChild(children[children.length - 1]);
+
+        this.innerNodes = fr;
         tag.innerHTML = '';
         this._$previousParsedtemplate = null;
     }
 
     $render() {
+
+        const div = document.createElement('div');
+
+        div.innerHTML = this.$insertComponents();
+
         if (this.$options && this.$options.compareTemplateBeforeInsert) {
-            const parsedTemplate = this._$checkStructuralDirectives(this.$getParsedTemplate());
+            this.$getParsedTemplate(div);
+            const parsedTemplate = this._$checkStructuralDirectives(div);
 
 
             if (parsedTemplate !== this._$previousParsedtemplate) {
@@ -32,30 +51,45 @@ export default class PrototypeComponent {
             }
 
         } else {
-            const parsedTemplate = this._$checkStructuralDirectives(this.$getParsedTemplate());
+            this._$checkStructuralDirectives(div);
+            this.$getParsedTemplate(div);
+            const parsedTemplate = div.childNodes[0];
             this.$updateView(parsedTemplate);
         }
     }
 
-    $getParsedTemplate(template = this.$template, data = this) {
-        return template.replace('[[insertComponent]]', this.innerHtml)
-            .replace(/\[(\w)+\]/g, v => {
-                const propertyName = v.substring(1, v.length - 1);
-                return (data[propertyName] !== undefined) ? data[propertyName] : v;
-            });
+    $insertComponents(template = this.$template) {
+        return template;
+    }
+
+    $getParsedTemplate(container, data = this, doAddListeners = true) {
+        const children = container.childNodes;
+        const len = children.length;
+        for (let i = 0; i < len; i++) {
+            if (children[i].nodeType === 3) {
+
+                if (children[i].nodeValue.indexOf('[[insertComponent]]') !== -1) {
+                    this._$insertComponent(children[i]);
+                } else {
+                    this._$insertDataToTemplate(children[i], data, doAddListeners);
+                }
+
+            } else {
+                if (!this._$isStructural(children[i])) {
+                    this.$getParsedTemplate(children[i], data, doAddListeners);
+                }
+            }
+        }
     }
 
     $updateView(view) {
-        this.$tag.innerHTML = view;
+        this.$tag.innerHTML = '';
+        this.$tag.appendChild(view);
         this._$previousParsedtemplate = view;
     }
 
-    _$checkStructuralDirectives(html) {
-        const template = document.createElement('div');
-        template.innerHTML = html;
-        const fragment = document.createDocumentFragment();
-        fragment.appendChild(template);
-        const structuralDirectives = fragment.querySelectorAll('[data-for]:not([data-for-index])'); // todo: increase time twice
+    _$checkStructuralDirectives(node) {
+        const structuralDirectives = node.querySelectorAll('[data-for]:not([data-for-index])'); // todo: increase time twice
 
         if (structuralDirectives.length) {
             structuralDirectives
@@ -64,16 +98,57 @@ export default class PrototypeComponent {
                     this[propertyName]
                         .forEach((v, i) => {
                             const newNode = node.cloneNode(true);
-                            newNode.innerHTML = this.$getParsedTemplate(newNode.innerHTML, v);
+                            this.$getParsedTemplate(newNode, v, false);
                             newNode.setAttribute('data-for-index', i);
                             node.after(newNode)
                         });
                     node.remove();
 
                 });
+            console.log(node);
+        };
+    }
 
+    _$isStructural(node) {
+        return !!node.getAttribute('data-for');
+    }
+
+    _$addListenerToUpdateBlock(node, propertyName) {
+        if (this['$listeners' + propertyName]) {
+            this['$listeners' + propertyName].add(node, updateNode(node.nodeValue));
+        } else {
+            const lastValue = this[propertyName];
+
+            Object.defineProperty(this, propertyName, {
+                get: () => this['_$' + propertyName],
+                set: newValue => {
+                    this['_$' + propertyName] = newValue;
+                    this['$listeners' + propertyName].update();
+                }
+            });
+
+            this['_$' + propertyName] = lastValue;
+
+            addPropertyEventEmitter(this, propertyName).add(node, updateNode(node.nodeValue));
         }
+    }
 
-        return fragment.childNodes[0].innerHTML;
+    _$insertComponent(node) {
+        const parent = node.parentElement;
+        node.remove();
+        parent.appendChild(this.innerNodes);
+    }
+
+    _$insertDataToTemplate(node, data, doAddListeners) {
+        node.nodeValue = node.nodeValue
+            .replace(/\[(\w)+\]/g, v => {
+                const propertyName = v.substring(1, v.length - 1);
+
+                if (doAddListeners && this[propertyName] !== undefined) {
+                    this._$addListenerToUpdateBlock(node, propertyName);
+                }
+
+                return (data[propertyName] !== undefined) ? data[propertyName] : v;
+            });
     }
 }

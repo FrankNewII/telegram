@@ -1,17 +1,16 @@
 export default class Observable {
-    constructor(component, childrenPropertyName, parentPropertyName) {
+    constructor(component, propertyName) {
         this.listeners = [];
         this.component = component;
-        this.childrenPropertyName = childrenPropertyName;
-        this.parentPropertyName = parentPropertyName;
+        this.propertyName = propertyName;
     }
 
-    add(component) {
-        this.listeners.push(component);
+    add(component, fn) {
+        this.listeners.push([component, fn]);
     }
 
     remove(component) {
-        const idx = this.listeners.indexOf(component);
+        const idx = this.listeners.find(v => v[0] === component);
 
         if (idx !== -1) {
             this.listeners.splice(idx, 1);
@@ -20,18 +19,14 @@ export default class Observable {
         if (!this.listeners.length) {
             const v = this.component['_$' + this.propertyName];
             delete this.component[this.propertyName];
+            delete this.component['$listeners' + this.propertyName];
             this.component[this.propertyName] = v;
         }
     }
 
     update() {
-        const v = this.component['_$' + this.parentPropertyName];
-        this.listeners.forEach( c => {
-            c.inputs[this.childrenPropertyName] = v;
-
-            if(c.changesProperties) {
-                c.changesProperties(this.childrenPropertyName);
-            }
-        });
+        const propertyName = this.component['_$' + this.propertyName];
+        const self = this;
+        this.listeners.forEach( listener => listener[1].call(self, listener[0], propertyName));
     }
 }
