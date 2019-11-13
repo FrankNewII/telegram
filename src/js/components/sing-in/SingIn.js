@@ -3,6 +3,7 @@ import PrototypeComponent from "../../common/PrototypeComponent";
 import template from "./sing-in.pug"
 import InputsWrapper from "../inputs-wrapper/InputsWrapper";
 import AutocompleteComponent from "../autocomplete-component/AutocompleteComponent";
+import ButtonComponent from "../button-component/ButtonComponent";
 
 export default class SingIn extends PrototypeComponent {
 
@@ -15,7 +16,7 @@ export default class SingIn extends PrototypeComponent {
     }
 
     static get components() {
-        return [InputsWrapper, AutocompleteComponent];
+        return [InputsWrapper, AutocompleteComponent, ButtonComponent];
     }
 
     static get name() {
@@ -31,41 +32,41 @@ export default class SingIn extends PrototypeComponent {
     }
 
     init() {
-        this.countriesLabel = 'Country';
-
-        setTimeout( v => this.countriesLabel = 'aaa', 2000);
-        this.phoneNumberLabel = 'Phone Number';
+        this.countryPlaceholder = 'Country';
         this.phoneCode = '';
-        this.countries = [{
+        this.selectedCountry = '';
+        this.buttonTitle = 'NEXT';
+
+        this._countries = this.countries = [{
             country: 'France',
             code: 'fr',
             phoneCode: '+1'
         }, {
-            country: 'France',
+            country: 'Germany',
             code: 'fr',
             phoneCode: '+2'
         }, {
-            country: 'France',
+            country: 'Ukraine',
             code: 'fr',
             phoneCode: '+3'
         }, {
-            country: 'France',
+            country: 'Russian',
             code: 'fr',
             phoneCode: '+4'
         }, {
-            country: 'France',
+            country: 'Italy',
             code: 'fr',
             phoneCode: '+5'
         }, {
-            country: 'France',
+            country: 'Georgia',
             code: 'fr',
             phoneCode: '+6'
         }, {
-            country: 'France',
+            country: 'Iraq',
             code: 'fr',
             phoneCode: '+7'
         }, {
-            country: 'France',
+            country: 'USA',
             code: 'fr',
             phoneCode: '+8'
         }];
@@ -73,9 +74,19 @@ export default class SingIn extends PrototypeComponent {
 
     countryChanged(idx) {
         this.phoneCode = this.countries[idx].phoneCode;
+        this.$references['inputPhoneNumber'].value = this.countries[idx].phoneCode;
+        this.selectedCountry = this.countries[idx].country;
     }
 
     clickHandler(event) {
         console.log(event);
+    }
+
+    search(value) {
+        this.countries = this._countries.filter( v => value ? v.country.toLowerCase().indexOf(value.toLowerCase()) !== -1 : true );
+    }
+
+    submit() {
+        console.log(this.$references['inputPhoneNumber'].value);
     }
 }

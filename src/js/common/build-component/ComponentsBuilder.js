@@ -17,6 +17,7 @@ class ComponentsBuilder extends CheckerProperties {
 
         if (instance.init) instance.init();
         instance.$render(tag);
+        if (instance.viewInited) instance.viewInited();
         tag.component = instance;
         if (klass.listenEvents) this.appendEventsListeners(tag, klass.listenEvents, instance);
         if (klass.components) this._searchChildComponents(klass.components, instance, tag);

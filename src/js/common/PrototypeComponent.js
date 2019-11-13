@@ -1,8 +1,32 @@
 import {addPropertyEventEmitter} from "./functions/addPropertyEventEmitter";
+import {makePropertyObservable} from "./functions/makePropertyObservable";
 
 function updateNode(template) {
     return function (v) {
         v.nodeValue = template.replace('[' + this.propertyName + ']', this.component[this.propertyName])
+    }
+}
+
+function updateStructural(node, place) {
+    const fragment = document.createDocumentFragment();
+    let parent = null;
+    return function (v) {
+        let n = null;
+        this.component[this.propertyName]
+            .forEach((v, i) => {
+                const newNode = node.cloneNode(true);
+                this.component.$getParsedTemplate(newNode, v, false);
+                newNode.setAttribute('data-for-index', i);
+                n = newNode;
+                fragment.appendChild(newNode)
+            });
+
+        if (!parent) {
+            parent = place.parentElement;
+        }
+
+        parent.innerHTML = '';
+        parent.appendChild(fragment);
     }
 }
 
@@ -28,10 +52,9 @@ export default class PrototypeComponent {
         const fr = document.createDocumentFragment();
         const children = tag.childNodes;
 
-        while (children.length) fr.appendChild(children[children.length - 1]);
+        while (children.length) fr.appendChild(children[0]);
 
         this.innerNodes = fr;
-        tag.innerHTML = '';
         this._$previousParsedtemplate = null;
     }
 
@@ -75,6 +98,11 @@ export default class PrototypeComponent {
                 }
 
             } else {
+                const ref = children[i].getAttribute('data-element-ref');
+
+                if (ref) {
+                    this._$insertReferences(ref, children[i]);
+                }
                 if (!this._$isStructural(children[i])) {
                     this.$getParsedTemplate(children[i], data, doAddListeners);
                 }
@@ -88,25 +116,28 @@ export default class PrototypeComponent {
         this._$previousParsedtemplate = view;
     }
 
-    _$checkStructuralDirectives(node) {
-        const structuralDirectives = node.querySelectorAll('[data-for]:not([data-for-index])'); // todo: increase time twice
+    _$checkStructuralDirectives(parentNode) {
+        const structuralDirectives = parentNode.querySelectorAll('[data-for]:not([data-for-index])'); // todo: increase time twice
 
         if (structuralDirectives.length) {
             structuralDirectives
                 .forEach(node => {
                     const propertyName = node.getAttribute('data-for');
+                    let n = null;
                     this[propertyName]
                         .forEach((v, i) => {
                             const newNode = node.cloneNode(true);
                             this.$getParsedTemplate(newNode, v, false);
                             newNode.setAttribute('data-for-index', i);
-                            node.after(newNode)
+                            node.before(newNode)
+                            n = newNode;
                         });
-                    node.remove();
 
+                    makePropertyObservable(this, propertyName, node, updateStructural(node, n), propertyName);
+
+                    node.parentElement.removeChild(node);
                 });
-            console.log(node);
-        };
+        }
     }
 
     _$isStructural(node) {
@@ -114,23 +145,7 @@ export default class PrototypeComponent {
     }
 
     _$addListenerToUpdateBlock(node, propertyName) {
-        if (this['$listeners' + propertyName]) {
-            this['$listeners' + propertyName].add(node, updateNode(node.nodeValue));
-        } else {
-            const lastValue = this[propertyName];
-
-            Object.defineProperty(this, propertyName, {
-                get: () => this['_$' + propertyName],
-                set: newValue => {
-                    this['_$' + propertyName] = newValue;
-                    this['$listeners' + propertyName].update();
-                }
-            });
-
-            this['_$' + propertyName] = lastValue;
-
-            addPropertyEventEmitter(this, propertyName).add(node, updateNode(node.nodeValue));
-        }
+        makePropertyObservable(this, propertyName, node, updateNode(node.nodeValue), propertyName);
     }
 
     _$insertComponent(node) {
@@ -150,5 +165,23 @@ export default class PrototypeComponent {
 
                 return (data[propertyName] !== undefined) ? data[propertyName] : v;
             });
+    }
+
+    _$insertReferences(referenceName, node) {
+        if (this.$references) {
+            if (this.$references[referenceName]) {
+
+                if (!this.$references[referenceName].push) {
+                    this.$references[referenceName] = [this.$references[referenceName]];
+                }
+
+                this.$references[referenceName].push(node);
+            } else {
+                this.$references[referenceName] = node;
+            }
+        } else {
+            this.$references = {};
+            this.$references[referenceName] = node;
+        }
     }
 }

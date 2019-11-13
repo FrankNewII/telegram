@@ -4,7 +4,7 @@ import template from "./inputs-wrapper.pug"
 export default class InputsWrapper extends PrototypeComponent {
 
     static get inputs() {
-        return {label: 'Check', class: null};
+        return {label: '', class: null};
     }
 
     static get listenEvents() {

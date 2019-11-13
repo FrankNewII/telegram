@@ -6,6 +6,7 @@ autocomplete-component {
   }
 
   &.active {
+
     .options-container {
       overflow-y: scroll;
       opacity: 1;
@@ -31,7 +32,7 @@ autocomplete-component {
     box-shadow: 0 0 5px $light-gray;
     opacity: 0;
     max-height: 0px;
-    transition: max-height .6s, opacity .4s;
+    transition: max-height .4s, opacity .4s;
     top: 15px;
   }
 }

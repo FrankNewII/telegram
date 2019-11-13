@@ -1,6 +1,7 @@
-export default class Observable {
+export default class ArrayObservable {
     constructor(component, propertyName, componentPropertyName) {
         this.listeners = [];
+        this.array = [];
         this.component = component;
         this.propertyName = propertyName;
         this.componentPropertyName = componentPropertyName;
@@ -29,5 +30,9 @@ export default class Observable {
         const propertyName = this.component['_$' + this.propertyName];
         const self = this;
         this.listeners.forEach( listener => listener[1].call(self, listener[0], propertyName, this.componentPropertyName));
+    }
+
+    push() {
+        this.array.push.call(this.array, arguments);
     }
 }

@@ -1,0 +1,37 @@
+@import './colors';
+
+button-component {
+  position: relative;
+  overflow: hidden;
+  display: block;
+
+  .wave {
+    background-color: rgba(0,0,0,.2);
+    position: absolute;
+    opacity: 1;
+    width: 1px;
+    height: 1px;
+    transform: translate(-50%, -50%) scale(0);
+    transition: .3s opacity, .3s transform;
+    pointer-events: none;
+    border-radius: 50%;
+
+    &.rise {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(200);
+    }
+  }
+
+  &.submit-form {
+    button {
+      width: 100%;
+      border: none;
+      background-color: $light-blue;
+      color: white;
+      font-size: 16px;
+      height: 54px;
+      line-height: 54px;
+      border-radius: 8px;
+    }
+  }
+}

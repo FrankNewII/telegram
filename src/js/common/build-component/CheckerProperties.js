@@ -1,35 +1,19 @@
-import Observable from "../Observable";
 import Emitter from "./Emitter";
-import {addPropertyEventEmitter} from "../functions/addPropertyEventEmitter";
+import {makePropertyObservable} from "../functions/makePropertyObservable";
 
 function updateChildrenProperties(c, v) {
-    c.inputs[this.propertyName] = v;
+    c.inputs[this.componentPropertyName] = v;
 
-    if(c.changesProperties) {
-        c.changesProperties(this.propertyName);
+    if (c.changesProperties) {
+        c.changesProperties(this.componentPropertyName);
     }
 }
+
 export default class CheckerProperties extends Emitter {
     _parentsListenProperties(component, parent, listenProperties) {
 
         Object.entries(listenProperties).forEach(([childrenProperty, parentProperty]) => {
-            if (parent['$listeners' + parentProperty]) {
-                parent['$listeners' + parentProperty].add(component, updateChildrenProperties);
-            } else {
-                const lastValue = parent[parentProperty];
-
-                Object.defineProperty(parent, parentProperty, {
-                    get: () => parent['_$' + parentProperty],
-                    set: newValue => {
-                        parent['_$' + parentProperty] = newValue;
-                        parent['$listeners' + parentProperty].update();
-                    }
-                });
-
-                parent['_$' + parentProperty] = lastValue;
-
-                addPropertyEventEmitter(parent, parentProperty).add(component, updateChildrenProperties);
-            }
+            makePropertyObservable(parent, parentProperty, component, updateChildrenProperties, childrenProperty);
         });
     }
 
@@ -37,6 +21,7 @@ export default class CheckerProperties extends Emitter {
         const objectData = {};
         Object.entries(listenProperties).forEach(([childrenProperty, parentProperty]) => objectData[childrenProperty] = parent[parentProperty]);
         instance.inputs = Object.assign({}, defaultParams, objectData);
+        console.log(instance.inputs);
     }
 
 

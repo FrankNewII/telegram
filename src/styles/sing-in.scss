@@ -33,11 +33,24 @@ $paddingTop: 105px;
   inputs-wrapper {
     margin: 25px 0;
     display: block;
+
+    &.phone {
+      .phone-number {
+        width: 100%;
+        display: flex;
+      }
+
+      .select-country {
+        flex: 1;
+        height: 42px;
+      }
+    }
   }
 
   autocomplete-component {
     .option {
       cursor: pointer;
+      font-size: 16px;
 
       &:hover {
         color: $light-blue;
@@ -49,9 +62,10 @@ $paddingTop: 105px;
         display: block;
         content: '';
       }
-
-      font-size: 16px;
-        .flag {
+      .flag, .title, .phone-number {
+        pointer-events: none;
+      }
+      .flag {
         display: inline-block;
         width: 50px;
       }
