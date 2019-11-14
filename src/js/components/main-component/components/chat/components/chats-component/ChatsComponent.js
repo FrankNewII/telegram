@@ -22,4 +22,17 @@ export default class ChatsComponent extends PrototypeComponent {
     static get template() {
         return template();
     }
+
+    static get listenEvents() {
+        return {
+            click: {
+                method: 'loggedOut',
+                targets: ['search', 'menu']
+            }
+        }
+    }
+
+    loggedOut() {
+        this.$outputs.loggedOut();
+    }
 }

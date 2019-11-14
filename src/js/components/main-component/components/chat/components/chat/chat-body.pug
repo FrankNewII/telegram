@@ -11,4 +11,10 @@
                 input(data-element-ref='searchInChat')
             .search(data-element-ref='search')
             .menu(data-element-ref='menu')
+    .messages(data-element-ref='messages')
+        .message(data-for='messages')
+            .message-body(data-class='from')='[message]'
+            .message-option
+                span='[time]'
+                span(data-class='isRead')
 

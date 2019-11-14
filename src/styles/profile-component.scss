@@ -1,32 +1,156 @@
 @import './colors';
 
 profile-component {
-  border: 1px solid rgb(218, 220, 224);
-  .controls-container {
-    height: 60px;
-    display: flex;
+  border: 1px solid $light-gray-2;
+  position: relative;
 
-    .close-profile {
-      width: 60px;
+  .profile-container {
+    min-width: 420px;
+
+    .controls-container {
       height: 60px;
-      float: left;
-      background-color: #ddd;
+      display: flex;
+
+      .close-profile {
+        width: 60px;
+        height: 60px;
+        float: left;
+        background-color: #ddd;
+      }
+
+      .label {
+        height: 60px;
+        flex: 1;
+        line-height: 60px;
+        font-size: 20px;
+        padding-left: 15px;
+      }
+
+      .additional-menu {
+        width: 60px;
+        height: 60px;
+        float: right;
+        background-color: #eee;
+      }
+    }
+    .profile-panel {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      min-width: 420px;
+      height: calc(100% - 60px);
+      overflow: auto;
+
+      .user {
+        .user-photo {
+          img {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 50%;
+            overflow: hidden;
+          }
+
+          margin-bottom: 26px;
+        }
+
+        .name {
+          font-size: 24px;
+          line-height: 28px;
+          text-align: center;
+        }
+
+        .status {
+          color: $light-blue;
+          font-size: 14px;
+          text-align: center;
+          margin-bottom: 37px;
+        }
+
+        .info {
+          .item {
+            font-size: 0;
+
+            .icon, .data {
+              display: inline-block;
+            }
+
+            .icon {
+              width: 80px;
+            }
+
+            .data {
+              margin-bottom: 34px;
+
+              .property {
+                font-size: 14px;
+                color: $text-gray;
+              }
+
+              .value {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+
+      .sharedType {
+        border-bottom: 1px solid $light-gray-2;
+
+        label {
+          width: 25%;
+          text-align: center;
+          display: inline-block;
+          font-size: 16px;
+          line-height: 36px;
+          position: relative;
+          color: $text-gray;
+        }
+
+        input {
+          display: none;
+        }
+
+        label:after + input {
+          display: block;
+          height: 4px;
+          position: absolute;
+          bottom: -4px;
+          content: '';
+          width: 100%;
+        }
+
+        input:checked + label {
+          color: $light-blue;
+        }
+      }
+
+      .shared {
+        padding: 6px;
+        .sharedImage {
+          width: 132px;
+          height: 132px;
+          position: relative;
+          display: inline-block;
+          background-color: #000;
+          margin: 2px;
+          .time {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            border: 0px solid;
+            border-radius: 2px;
+            color: #fff;
+            background-color: rgba(0,0,0, .5);
+            font-size: 10px;
+            line-height: 18px;
+            padding: 0 5px;
+          }
+        }
+      }
     }
 
-    .label {
-      height: 60px;
-      flex: 1;
-      line-height: 60px;
-      padding-left: 15px;
-    }
-
-    .additional-menu {
-      width: 60px;
-      height: 60px;
-      float: right;
-      background-color: #eee;
-    }
   }
-
-  
 }

@@ -1,10 +1,12 @@
 @import './colors';
 
 chats-component {
-  border: 1px solid rgb(218, 220, 224);
+  border: 1px solid $light-gray-2;
   padding: 0 8px;
   display: block;
-
+  .chats-container {
+    display: contents;
+  }
   .chats-options {
     height: 60px;
 
@@ -42,6 +44,9 @@ chats-component {
   }
 
   .chats {
+    max-height: calc(100% - 60px);
+    overflow: auto;
+
     .user-chat {
       margin: 5px 0;
       padding: 8px;

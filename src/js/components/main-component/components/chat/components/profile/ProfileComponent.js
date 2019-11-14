@@ -27,12 +27,73 @@ export default class ProfileComponent extends PrototypeComponent {
         return {
             click: {
                 method: 'changeState',
-                targets: ['closeProfile', 'menu']
-            }
+                targets: ['closeProfile', 'menu', 'tabs']
+            },
+
         }
     }
 
     changeState(event) {
-        this.$outputs.toggleProfile();
+        console.log(event);
+        if (this.$references['tabs'] === event.target) {
+            console.log(new FormData(event.target));
+        } else if (this.$references['closeProfile'] === event.target) {
+            this.$outputs.toggleProfile();
+        }
+    }
+
+    init() {
+        this.name = 'Karen Faren';
+        this.photo = 'Karen Faren';
+        this.bio = '25 yrs.o student';
+        this.username = 'KarenFarren';
+        this.phone = '+380123456789';
+        this.shared = [{
+            type: 'image',
+            src: 'ass',
+            time: '0:25'
+        }, {
+            type: 'image',
+            src: 'ass',
+            time: '0:25'
+        }, {
+            type: 'image',
+            src: 'ass',
+            time: '0:25'
+        }, {
+            type: 'image',
+            src: 'ass',
+            time: '0:25'
+        }, {
+            type: 'image',
+            src: 'ass',
+            time: '0:25'
+        }, {
+            type: 'image',
+            src: 'ass',
+            time: '0:25'
+        }, {
+            type: 'image',
+            src: 'ass',
+            time: '0:25'
+        }, {
+            type: 'image',
+            src: 'ass',
+            time: '0:20'
+        }, {
+            type: 'image',
+            src: 'ass',
+            time: '0:20'
+        }];
+        this.isEnabledNotification = true;
+    }
+
+    reset() {
+        this.sharedType = 'media';
+        this.$references['tabs'][0].checked = true;
+    }
+
+    viewInited() {
+        this.reset()
     }
 }

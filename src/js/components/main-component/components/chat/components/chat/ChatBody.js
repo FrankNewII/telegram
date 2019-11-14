@@ -28,6 +28,10 @@ export default class ChatBody extends PrototypeComponent {
             click: {
                 method: 'changeState',
                 targets: ['search', 'menu']
+            },
+            scroll: {
+                method: 'loadMessages',
+                targets: ['messages']
             }
         }
     }
@@ -40,5 +44,57 @@ export default class ChatBody extends PrototypeComponent {
         if (event.target === this.$references['search']) {
             this.$tag.classList.toggle('show-search-input');
         }
+    }
+
+    init() {
+        this.messages = [
+            {
+                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds' +
+                    'dsdsdfd dfdfd gkadkLsjdj sdleifjj KSJAdksa nsnjdkakl lLKLldjkjaskdjk' +
+                    'sad sadasfaskjf :sasa asddsffsdds',
+                type: 'message',
+                from: 'them',
+                time: '0:21',
+                isRead: false
+            },
+            {
+                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds',
+                type: 'message',
+                from: 'me',
+                time: '0:21',
+                isRead: false
+            },
+            {
+                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds' +
+                    'dsdsdfd dfdfd gkadkLsjdj sdleifjj KSJAdksa nsnjdkakl lLKLldjkjaskdjk' +
+                    'sad sadasfaskjf :sasa asddsffsdds',
+                type: 'message',
+                from: 'them',
+                time: '0:21',
+                isRead: false
+            },
+            {
+                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds' +
+                    'dsdsdfd dfdfd gkadkLsjdj sdleifjj KSJAdksa nsnjdkakl lLKLldjkjaskdjk' +
+                    'sad sadasfaskjf :sasa asddsffsdds',
+                type: 'message',
+                from: 'them',
+                time: '0:21',
+                isRead: false
+            },
+            {
+                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds' +
+                    'dsdsdfd dfdfd gkadkLsjdj sdleifjj KSJAdksa nsnjdkakl lLKLldjkjaskdjk' +
+                    'sad sadasfaskjf :sasa asddsffsdds',
+                type: 'message',
+                from: 'me',
+                time: '0:21',
+                isRead: false
+            }
+        ];
+    }
+
+    loadMessages() {
+
     }
 }

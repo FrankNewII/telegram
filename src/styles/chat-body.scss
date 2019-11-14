@@ -52,4 +52,23 @@ chat-body {
       }
     }
   }
+  .messages {
+    width: 710px;
+    margin: 0 auto;
+
+    .message-body {
+      border: 0 solid;
+      border-radius: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      max-width: 608px;
+      background-color: #fff;
+      line-height: 26px;
+      padding: 5px 10px;
+      
+      &.me {
+        background-color: rgb(241, 254, 225	);
+      }
+    }
+  }
 }

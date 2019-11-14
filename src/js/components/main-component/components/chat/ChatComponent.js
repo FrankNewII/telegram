@@ -82,7 +82,18 @@ export default class ChatComponent extends PrototypeComponent {
                 pinned: true,
                 photo: 'none',
                 online: true,
-                muted: false
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
             },
             {
                 name: 'Karen',
@@ -105,11 +116,289 @@ export default class ChatComponent extends PrototypeComponent {
                 photo: 'none',
                 online: true,
                 muted: false
-            }
-        ]
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: false
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            },
+            {
+                name: 'Karen',
+                messages: 2,
+                writing: true,
+                lastMessage: 'Hi',
+                lastMassageTime: '00:20',
+                pinned: true,
+                photo: 'none',
+                online: true,
+                muted: true
+            }];
     }
 
     toggleProfile() {
-        this.$tag.classList.toggle('profile-component')
+        this.$tag.classList.toggle('profile-component');
+    }
+
+    loggedOut() {
+        this.$outputs.loggedOut();
     }
 }

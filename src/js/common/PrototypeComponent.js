@@ -1,4 +1,3 @@
-import {addPropertyEventEmitter} from "./functions/addPropertyEventEmitter";
 import {makePropertyObservable} from "./functions/makePropertyObservable";
 
 function updateNode(template) {
@@ -16,7 +15,7 @@ function updateStructural(node, place) {
             .forEach((v, i) => {
                 const newNode = node.cloneNode(true);
                 this.component.$getParsedTemplate(newNode, v, false);
-                newNode.setAttribute('data-for-index', i);
+                newNode.dataset.forIndex = i;
                 n = newNode;
                 fragment.appendChild(newNode)
             });
@@ -39,12 +38,12 @@ export default class PrototypeComponent {
         this._$template = template;
     }
 
-    set $propertyChanged(b) {
-        this._$propertyChanged = b;
-    }
-
     get $propertyChanged() {
         return this._$propertyChanged;
+    }
+
+    set $propertyChanged(b) {
+        this._$propertyChanged = b;
     }
 
     get $outputs() {
@@ -109,11 +108,20 @@ export default class PrototypeComponent {
                 }
 
             } else {
-                const ref = children[i].getAttribute('data-element-ref');
+                const ref = children[i].dataset.elementRef;
+                const klass = children[i].dataset.class;
 
                 if (ref) {
                     this._$insertReferences(ref, children[i]);
                 }
+
+
+                if (klass) {
+                    const klasses = data[klass];
+
+                    children[i].classList.add(data[klass].join ? data[klass].join(' ') : data[[klass]] );
+                }
+
                 if (!this._$isStructural(children[i])) {
                     this.$getParsedTemplate(children[i], data, doAddListeners);
                 }
@@ -133,14 +141,14 @@ export default class PrototypeComponent {
         if (structuralDirectives.length) {
             structuralDirectives
                 .forEach(node => {
-                    const propertyName = node.getAttribute('data-for');
+                    const propertyName = node.dataset.for;
                     let n = null;
                     this[propertyName]
                         .forEach((v, i) => {
                             const newNode = node.cloneNode(true);
                             this.$getParsedTemplate(newNode, v, false);
-                            newNode.setAttribute('data-for-index', i);
-                            node.before(newNode)
+                            newNode.dataset.forIndex = i;
+                            node.before(newNode);
                             n = newNode;
                         });
 
@@ -152,7 +160,7 @@ export default class PrototypeComponent {
     }
 
     _$isStructural(node) {
-        return !!node.getAttribute('data-for');
+        return !!node.dataset.for;
     }
 
     _$addListenerToUpdateBlock(node, propertyName) {

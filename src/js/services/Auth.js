@@ -6,7 +6,7 @@ export default class Auth {
     }
 
     isLoggined() {
-        return this.log;
+        return this.log = false;
     }
 
     login(creds) {

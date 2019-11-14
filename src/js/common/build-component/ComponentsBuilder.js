@@ -24,13 +24,13 @@ class ComponentsBuilder extends CheckerProperties {
 
         if (instance.init) instance.init();
         instance.$render(tag);
-        if (instance.viewInited) instance.viewInited();
         tag.component = instance;
         if (klass.listenEvents) this.appendEventsListeners(tag, klass.listenEvents, instance);
         if (klass.components) this._searchChildComponents(klass.components, instance, tag);
         while(this.queue.hasItems()) {
             const params = this.queue.get();
             this.build.apply(this, params);
+            if (params[0].viewInited) instance.viewInited();
         }
         return instance;
     }

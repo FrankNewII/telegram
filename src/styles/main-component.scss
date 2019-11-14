@@ -1,6 +1,10 @@
 @import './colors';
 
 main-component {
+  .main-component {
+    display: inherit;
+  }
+
   chat-component {
     display: none;
   }
@@ -10,6 +14,8 @@ main-component {
     }
     chat-component {
       display: block;
+      height: 1px;
+      min-height: 100%;
     }
   }
 }

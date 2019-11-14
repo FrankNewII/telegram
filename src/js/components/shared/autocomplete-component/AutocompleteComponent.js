@@ -46,12 +46,12 @@ export default class AutocompleteComponent extends PrototypeComponent {
     }
     viewInited() {
         this.input = this.$tag.querySelector('input');
-        this.input.setAttribute('placeholder', this.inputs.placeholder);
+        this.$references.input.setAttribute('placeholder', this.inputs.placeholder);
     }
     focus(ev) {
         this.$outputs.search('');
         this.$tag.classList.add('active');
-        this.input.value = '';
+        this.$references.input.value = '';
     }
 
     blur() {
@@ -73,7 +73,7 @@ export default class AutocompleteComponent extends PrototypeComponent {
     changesProperties(propertyName) {
         if (propertyName === 'selectedLabel') {
             this.selectedLabel = this.$inputs.selectedLabel;
-            this.input.value = this.$inputs.selectedLabel;
+            this.$references.input.value = this.$inputs.selectedLabel;
         }
     }
 }
