@@ -1,0 +1,15 @@
+@import './colors';
+
+main-component {
+  chat-component {
+    display: none;
+  }
+  &.logged {
+    sing-in {
+      display: none;
+    }
+    chat-component {
+      display: block;
+    }
+  }
+}

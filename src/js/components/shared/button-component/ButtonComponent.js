@@ -1,4 +1,4 @@
-import PrototypeComponent from "../../common/PrototypeComponent";
+import PrototypeComponent from "../../../common/PrototypeComponent";
 import template from "./button-component.pug";
 
 export default class ButtonComponent extends PrototypeComponent {
@@ -32,12 +32,12 @@ export default class ButtonComponent extends PrototypeComponent {
     }
 
     init() {
-        this.title = this.inputs.title;
+        this.title = this.$inputs.title;
     }
 
     click(eve) {
         this.createWave(eve.offsetX, eve.offsetY);
-        this.outputs.click();
+        this.$outputs.click();
     }
 
     createWave(x, y) {

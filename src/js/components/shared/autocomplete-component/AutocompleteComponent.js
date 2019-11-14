@@ -1,4 +1,4 @@
-import PrototypeComponent from "../../common/PrototypeComponent";
+import PrototypeComponent from "../../../common/PrototypeComponent";
 import template from "./autocomplete-component.pug"
 
 export default class AutocompleteComponent extends PrototypeComponent {
@@ -9,6 +9,7 @@ export default class AutocompleteComponent extends PrototypeComponent {
             selectedLabel: ''
         }
     }
+
     static get listenEvents() {
         return {
             focusin: {
@@ -48,7 +49,7 @@ export default class AutocompleteComponent extends PrototypeComponent {
         this.input.setAttribute('placeholder', this.inputs.placeholder);
     }
     focus(ev) {
-        this.outputs.search('');
+        this.$outputs.search('');
         this.$tag.classList.add('active');
         this.input.value = '';
     }
@@ -62,17 +63,17 @@ export default class AutocompleteComponent extends PrototypeComponent {
 
     select(event) {
         const id = event.target.dataset.forIndex;
-        this.outputs.changed(id);
+        this.$outputs.changed(id);
     }
 
     inputChanged(ev) {
-        this.outputs.search(ev.target.value);
+        this.$outputs.search(ev.target.value);
     }
 
     changesProperties(propertyName) {
         if (propertyName === 'selectedLabel') {
-            this.selectedLabel = this.inputs.selectedLabel;
-            this.input.value = this.inputs.selectedLabel;
+            this.selectedLabel = this.$inputs.selectedLabel;
+            this.input.value = this.$inputs.selectedLabel;
         }
     }
 }

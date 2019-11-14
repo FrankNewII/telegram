@@ -1,18 +1,15 @@
-import Http from "../../services/http";
-import PrototypeComponent from "../../common/PrototypeComponent";
-import template from "./sing-in.pug"
-import InputsWrapper from "../inputs-wrapper/InputsWrapper";
-import AutocompleteComponent from "../autocomplete-component/AutocompleteComponent";
-import ButtonComponent from "../button-component/ButtonComponent";
+import template from "./sing-in-form.pug"
+import InputsWrapper from "../../../../../shared/inputs-wrapper/InputsWrapper";
+import AutocompleteComponent from "../../../../../shared/autocomplete-component/AutocompleteComponent";
+import ButtonComponent from "../../../../../shared/button-component/ButtonComponent";
+import Http from "../../../../../../services/Http";
+import Auth from "../../../../../../services/Auth";
+import PrototypeComponent from "../../../../../../common/PrototypeComponent";
 
-export default class SingIn extends PrototypeComponent {
-
-    static get inputs() {
-        return {bass: null};
-    }
+export default class SingInForm extends PrototypeComponent {
 
     static get outputs() {
-        return {test: null};
+        return {sentCode: null};
     }
 
     static get components() {
@@ -20,11 +17,11 @@ export default class SingIn extends PrototypeComponent {
     }
 
     static get name() {
-        return 'sing-in';
+        return 'sing-in-form';
     }
 
     static get dependencies() {
-        return [Http];
+        return [Http, Auth];
     }
 
     static get template() {
@@ -88,5 +85,7 @@ export default class SingIn extends PrototypeComponent {
 
     submit() {
         console.log(this.$references['inputPhoneNumber'].value);
+        this.$dependencies[1].login();
+        this.$outputs.sentCode(this.$references['inputPhoneNumber'].value);
     }
 }

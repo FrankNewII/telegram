@@ -1,12 +1,14 @@
-import Http from "../../services/http";
+import Http from "../../services/Http";
 import PrototypeComponent from "../../common/PrototypeComponent";
 import template from "./main-component.pug";
-import SingIn from "../sing-in/SingIn";
+import SingIn from "./components/sing-in/SingIn";
+import Auth from "../../services/Auth";
+import ChatComponent from "./components/chat/ChatComponent";
 
 export default class MainComponent extends PrototypeComponent {
 
     static get components() {
-        return [SingIn];
+        return [SingIn, ChatComponent];
     }
 
     static get name() {
@@ -14,21 +16,23 @@ export default class MainComponent extends PrototypeComponent {
     }
 
     static get dependencies() {
-        return [Http];
+        return [Http, Auth];
     }
 
     static get template() {
         return template();
     }
 
-    inject(dependencies) {
-        this.services = dependencies;
+    init() {
+        this.$tag.classList.add('logged');
+        //this.checkState();
     }
 
-    init() {
-        window.ttt = this;
-        this.ass = 'Bad ass';
-        this.bass2 = 'Super Bass parent';
-
+    checkState() {
+        if (this.$dependencies[1].isLoggined()) {
+            this.$tag.classList.add('logged');
+        } else {
+            this.$tag.classList.remove('logged');
+        }
     }
 }

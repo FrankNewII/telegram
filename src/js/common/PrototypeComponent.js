@@ -47,6 +47,18 @@ export default class PrototypeComponent {
         return this._$propertyChanged;
     }
 
+    get $outputs() {
+        return this.outputs;
+    }
+
+    get $inputs() {
+        return this.inputs
+    }
+
+    get $dependencies() {
+        return this.dependencies;
+    }
+
     $init(tag) {
         this.$tag = tag;
         const fr = document.createDocumentFragment();
@@ -59,7 +71,6 @@ export default class PrototypeComponent {
     }
 
     $render() {
-
         const div = document.createElement('div');
 
         div.innerHTML = this.$insertComponents();

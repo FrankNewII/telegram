@@ -1,0 +1,11 @@
+div
+    .telegram-logo
+    .labels-container
+        img.image(srcset="../images/Login_1@1x.png 1x, ../images/Login_1@2x.png 2x, ../images/Login_1@3x.png 3x")
+        .header='Your Name'
+        .notice='Enter your name and add a profile picture'
+    inputs-wrapper(class='name')
+        input(placeholder='Name' data-element-ref='name' autocomplete='no')
+    inputs-wrapper(class='surname')
+        input(placeholder='Last Name (Optional)' data-element-ref='lastname' autocomplete='no')
+    button-component(class='submit-form' data-output-click='submit')

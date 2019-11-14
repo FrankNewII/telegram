@@ -6,6 +6,7 @@ export default class EventHandler {
     }
 
     callMethod(event, testEventParams, instance, eventName) {
+        event.stopPropagation();
         if (testEventParams.targets) {
             const idx = testEventParams.targets.indexOf(event.target.getAttribute('data-element-ref'));
             if (idx === -1) return;

@@ -1,0 +1,37 @@
+.chats-container
+    .controls-container
+        .close-profile(data-element-ref='closeProfile')
+        .label='Info'
+        .additional-menu
+    .user
+        .user-photo
+            img(src='[photo]')
+        .name='[name]'
+        .isOnline='Online'
+        .info
+            .item
+                .icon.icon-info
+                .data='[bio]'
+                .label='Bio'
+            .item
+                .icon.icon-info
+                .data='[username]'
+                .label='Username'
+            .item
+                .icon.icon-info
+                .data='[phone]'
+                .label='Phone'
+            .item
+                .icon.icon-info
+                .data='Notification'
+                .label='[isEnabledNotification]'
+    .shared
+        label(for='media')='Media'
+        input(type='radio' id='media' value='media' name='sharedType')
+        label(for='docs')='Docs'
+        input(type='radio' id='docs' value='docs' name='sharedType')
+        label(for='links')='Links'
+        input(type='radio' id='links' value='links' name='sharedType')
+        label(for='audio')='Audio'
+        input(type='radio' id='audio' value='audio' name='sharedType')
+

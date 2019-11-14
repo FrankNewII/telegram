@@ -21,7 +21,6 @@ export default class CheckerProperties extends Emitter {
         const objectData = {};
         Object.entries(listenProperties).forEach(([childrenProperty, parentProperty]) => objectData[childrenProperty] = parent[parentProperty]);
         instance.inputs = Object.assign({}, defaultParams, objectData);
-        console.log(instance.inputs);
     }
 
 

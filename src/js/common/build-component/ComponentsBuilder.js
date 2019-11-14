@@ -1,8 +1,15 @@
 import DI from "../DI";
 import CheckerProperties from "./CheckerProperties";
 import PrototypeComponent from "../PrototypeComponent";
+import {Queue} from "../Queue";
 
 class ComponentsBuilder extends CheckerProperties {
+    constructor() {
+        super();
+        this.queue = new Queue();
+        this.i = 0;
+    }
+
     build(klass, tag, parent) {
         if (!klass.name) throw new Error('PrototypeComponent must have property "name"');
 
@@ -21,7 +28,10 @@ class ComponentsBuilder extends CheckerProperties {
         tag.component = instance;
         if (klass.listenEvents) this.appendEventsListeners(tag, klass.listenEvents, instance);
         if (klass.components) this._searchChildComponents(klass.components, instance, tag);
-
+        while(this.queue.hasItems()) {
+            const params = this.queue.get();
+            this.build.apply(this, params);
+        }
         return instance;
     }
 
@@ -29,7 +39,7 @@ class ComponentsBuilder extends CheckerProperties {
         components.forEach(component => {
             const tags = tag.querySelectorAll(component.name);
 
-            tags.forEach(t => this.build(component, t, instance));
+            tags.forEach(t => this.queue.add([component, t, instance]));
         });
     }
 

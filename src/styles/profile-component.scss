@@ -1,0 +1,32 @@
+@import './colors';
+
+profile-component {
+  border: 1px solid rgb(218, 220, 224);
+  .controls-container {
+    height: 60px;
+    display: flex;
+
+    .close-profile {
+      width: 60px;
+      height: 60px;
+      float: left;
+      background-color: #ddd;
+    }
+
+    .label {
+      height: 60px;
+      flex: 1;
+      line-height: 60px;
+      padding-left: 15px;
+    }
+
+    .additional-menu {
+      width: 60px;
+      height: 60px;
+      float: right;
+      background-color: #eee;
+    }
+  }
+
+  
+}

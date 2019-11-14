@@ -1,0 +1,71 @@
+@import './colors';
+
+chats-component {
+  border: 1px solid rgb(218, 220, 224);
+  padding: 0 8px;
+  display: block;
+
+  .chats-options {
+    height: 60px;
+
+    .menu-toggler, .input-container {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .menu-toggler {
+      width: 60px;
+      height: 60px;
+      background-color: #ddd;
+    }
+
+    .input-container {
+      width: calc(100% - 80px);
+      padding-left: 8px;
+      padding-right: 12px;
+
+      input {
+        width: 100%;
+        background-color: #ddd;
+        border: 0 solid gray;
+        height: 45px;
+        line-height: 45px;
+        border-radius: 19px;
+
+        &:focus {
+          background-color: #fff;
+          outline: none;
+        }
+      }
+    }
+
+  }
+
+  .chats {
+    .user-chat {
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 8px;
+
+      &:hover {
+        background-color: rgb(244,244,245);
+      }
+      .photo {
+        float: left;
+        border-radius: 50%;
+        height: 54px;
+        width: 54px;
+        overflow: hidden;
+        margin-right: 8px;
+
+        img {
+          width: 54px;
+          height: 54px;
+
+        }
+      }
+    }
+
+
+  }
+}

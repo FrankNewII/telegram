@@ -1,4 +1,4 @@
-import PrototypeComponent from "../../common/PrototypeComponent";
+import PrototypeComponent from "../../../common/PrototypeComponent";
 import template from "./inputs-wrapper.pug"
 
 export default class InputsWrapper extends PrototypeComponent {
@@ -31,8 +31,7 @@ export default class InputsWrapper extends PrototypeComponent {
     }
 
     init() {
-        this.label = this.inputs.label;
-        console.log(this);
+        this.label = this.$inputs.label;
     }
 
     focus(ev) {
