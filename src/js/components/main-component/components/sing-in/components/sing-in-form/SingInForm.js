@@ -84,8 +84,8 @@ export default class SingInForm extends PrototypeComponent {
     }
 
     submit() {
-        console.log(this.$references['inputPhoneNumber'].value);
-        this.$dependencies[1].login();
+        // /
+        // this.$dependencies[1].login();
         this.$outputs.sentCode(this.$references['inputPhoneNumber'].value);
     }
 }

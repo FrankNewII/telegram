@@ -1,6 +1,6 @@
 import {addPropertyEventEmitter} from "./addPropertyEventEmitter";
 
-export function makePropertyObservable(observableComponent, propertyName, observerComponent, listener, observablePropertyName) {
+export function makePropertyObservable(observableComponent, propertyName, observerComponent, listener, observerPropertyName) {
     if (observableComponent['$listeners' + propertyName]) {
         observableComponent['$listeners' + propertyName].add(observerComponent, listener);
     } else {
@@ -16,6 +16,6 @@ export function makePropertyObservable(observableComponent, propertyName, observ
 
         observableComponent['_$' + propertyName] = lastValue;
 
-        addPropertyEventEmitter(observableComponent, propertyName, observablePropertyName).add(observerComponent, listener);
+        addPropertyEventEmitter(observableComponent, propertyName, observerPropertyName).add(observerComponent, listener);
     }
 }

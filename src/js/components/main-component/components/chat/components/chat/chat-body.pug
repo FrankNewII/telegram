@@ -5,16 +5,36 @@
                 img(src='[photo]')
             .creds
                 .name='[name]'
-                .isOnline
+                .status='[time]'
         .menu-container
-            .search-in-chat-container
-                input(data-element-ref='searchInChat')
             .search(data-element-ref='search')
+                button-component(data-output-click='search').rounded
+                    span.icon.icon-search_svg
             .menu(data-element-ref='menu')
+                button-component(data-output-click='toggleProfile').rounded
+                    span.icon.icon-more_svg
     .messages(data-element-ref='messages')
         .message(data-for='messages')
-            .message-body(data-class='from')='[message]'
-            .message-option
-                span='[time]'
-                span(data-class='isRead')
-
+            .message-body(data-class='from')
+                .bottom-shadow
+                .side-shadow
+                span.message-text='[message]'
+                span.message-option
+                    span='[time]'
+                    span(data-class='isRead')
+    .enter-message-field
+        .message-container
+            .shadows-container
+                .bottom-shadow
+                .side-shadow
+                .smiles
+                    button-component.rounded
+                        span.icon.icon-smile_svg
+                .textarea-container
+                    .editor(contenteditable='true')
+                .attach-file
+                    button-component.rounded
+                        span.icon.icon-attach_svg
+            .control-panel-container
+                button-component.blue.rounded
+                    span.icon.icon-microphone_svg

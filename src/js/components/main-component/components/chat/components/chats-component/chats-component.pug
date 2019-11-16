@@ -1,8 +1,10 @@
 .chats-container
     .chats-options
         .menu-toggler
-            span.menu(data-element-ref='menu')
+            button-component.rounded
+                span.icon.icon-menu_svg
         .input-container
-            input(data-element-ref='search')
+            span.icon.icon-search_svg
+            input(data-element-ref='search' placeholder='Search')
     .chats
         | [[insertComponent]]

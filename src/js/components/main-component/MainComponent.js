@@ -24,15 +24,20 @@ export default class MainComponent extends PrototypeComponent {
     }
 
     init() {
-        this.$tag.classList.add('logged');
-        //this.checkState();
+        //this.$tag.classList.add('logged');
+        this.checkState();
     }
 
     checkState() {
-        if (this.$dependencies[1].isLoggined()) {
+        this.$tag.classList.add('logged');
+        /*if (this.$dependencies[1].isLoggined()) {
             this.$tag.classList.add('logged');
         } else {
             this.$tag.classList.remove('logged');
-        }
+        }*/
+    }
+
+    setTelegramCreds() {
+        //console.log(this.$dependencies[0]);
     }
 }

@@ -1,17 +1,23 @@
 .chat-container
     .chat
-        chats-component(data-output-loggedOut='loggedOut')
-            .user-chat(data-for='chats')
-                .photo
-                    img(src='[photo]')
-                    .isOnline
-                .message-params
-                    .name
-                        span='[name]'
-                        span='[lastMassageTime]'
-                    .message
-                        span='[lastMessage]'
-                        span(class='have-unread')='[messages]'
+        chats-component(data-output-loggedOut='loggedOut' data-output-selectChat='selectChat' data-output-searchChat='searchChat')
+            .buttons(data-for='chats')
+                button-component(data-element-ref='selectChat').user-chat
+                    .user
+                        .photo
+                            img(src='[photo]')
+                            .isOnline
+                        .message
+                            .name
+                                span='[name]'
+                            .message-text
+                                span='[lastMessage]'
 
-        chat-body(data-output-toggleProfile='toggleProfile')
-        profile-component(data-output-toggleProfile='toggleProfile')
+                        .message-params
+                            .time='[lastMassageTime]'
+                            span.unread='[messages]'
+
+
+
+        chat-body(data-output-toggleProfile='toggleProfile' data-input-user='openChat')
+        profile-component(data-output-toggleProfile='toggleProfile' data-input-user='openChat')

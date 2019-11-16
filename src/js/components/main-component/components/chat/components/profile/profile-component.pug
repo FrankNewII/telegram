@@ -1,37 +1,45 @@
 .profile-container
     .controls-container
-        .close-profile(data-element-ref='closeProfile')
+        .close-profile
+            button-component(data-output-click='closeProfile').rounded
+                span.icon.icon-close_svg
         .label='Info'
         .additional-menu
+            button-component(data-output-click='openAdditionalMenu').rounded
+                span.icon.icon-more_svg
     .profile-panel
         .user
             .user-photo
                 img(src='[photo]')
             .name='[name]'
-            .status.isOnline='Online'
+            .status(data-class='isOnline')='Online'
             .info
                 .item
-                    .icon.icon-info
+                    .icons
+                        span.icon.icon-info_svg
                     .data
                         .value='[bio]'
                         .property='Bio'
                 .item
-                    .icon.icon-info
+                    .icons
+                        span.icon.icon-channel_svg
                     .data
                         .value='[username]'
                         .property='Username'
                 .item
-                    .icon.icon-info
+                    .icons
+                        span.icon.icon-phone_svg
                     .data
                         .value='[phone]'
                         .property='Phone'
                 .item
-                    .icon.icon-info
+                    .icons
+                        span.icon.icon-checkbox_svg
                     .data
                         .value='Notification'
                         .property='[isEnabledNotification]'
         form
-            .sharedType
+            .sharedType(data-class='sharedType')
                 input(type='radio' id='media' value='media' name='sharedType' data-element-ref='tabs')
                 label(for='media')='Media'
 

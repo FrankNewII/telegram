@@ -15,7 +15,7 @@ export default class Emitter extends EventHandler{
         const nameProperties = {};
         Object.keys(listenProperties).forEach(k => {
             const propertyName = tag.getAttribute( 'data-' + ( outputs ? 'output' : 'input' ) + '-' + k);
-
+            // todo: check speed with dataset
             if (propertyName) nameProperties[k] = propertyName;
 
         });

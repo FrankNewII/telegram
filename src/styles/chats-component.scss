@@ -4,9 +4,11 @@ chats-component {
   border: 1px solid $light-gray-2;
   padding: 0 8px;
   display: block;
+
   .chats-container {
     display: contents;
   }
+
   .chats-options {
     height: 60px;
 
@@ -18,21 +20,36 @@ chats-component {
     .menu-toggler {
       width: 60px;
       height: 60px;
-      background-color: #ddd;
+      padding: 3px;
+      box-sizing: border-box;
     }
 
     .input-container {
       width: calc(100% - 80px);
       padding-left: 8px;
       padding-right: 12px;
+      position: relative;
+
+      .icon {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+      }
 
       input {
+        box-sizing: border-box;
         width: 100%;
-        background-color: #ddd;
+        background-color: rgb(244, 244, 245);
         border: 0 solid gray;
-        height: 45px;
-        line-height: 45px;
+        height: 44px;
+        line-height: 44px;
         border-radius: 19px;
+        font-size: 16px;
+        padding-left: 42px;
+        &::placeholder {
+          color: rgb(154, 160, 166);
+        }
 
         &:focus {
           background-color: #fff;
@@ -47,14 +64,22 @@ chats-component {
     max-height: calc(100% - 60px);
     overflow: auto;
 
-    .user-chat {
-      margin: 5px 0;
-      padding: 8px;
-      border-radius: 8px;
+    .user {
+      font-size: 16px;
+      line-height: 24px;
 
-      &:hover {
-        background-color: rgb(244,244,245);
+      span {
+        text-align: left;
+        display: inline;
+        width: auto;
       }
+
+      &:after {
+        clear: both;
+        display: block;
+        content: '';
+      }
+
       .photo {
         float: left;
         border-radius: 50%;
@@ -67,6 +92,36 @@ chats-component {
           width: 54px;
           height: 54px;
 
+        }
+      }
+
+      .message {
+        padding: 3px 0;
+        float: left;
+
+        .message-text {
+          color: $text-gray;
+          text-align: left;
+        }
+      }
+
+      .message-params {
+        float: right;
+
+        .time {
+          line-height: 28px;
+          font-size: 12px;
+          height: 28px;
+          color: rgb(125, 128, 133);
+        }
+
+        .unread {
+          font-size: 14px;
+          float: right;
+          padding: 0 8px;
+          background-color: rgb(114, 201, 107);
+          color: #fff;
+          border-radius: 11px;
         }
       }
     }

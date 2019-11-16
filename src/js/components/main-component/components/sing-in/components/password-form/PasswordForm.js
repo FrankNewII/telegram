@@ -57,6 +57,5 @@ export default class PasswordForm extends PrototypeComponent {
 
     submit(ev) {
         this.$outputs.enteredPassword();
-        console.log(arguments);
     }
 }

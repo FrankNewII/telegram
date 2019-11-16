@@ -1,5 +1,6 @@
 import template from "./chat-body.pug"
 import PrototypeComponent from "../../../../../../common/PrototypeComponent";
+import ButtonComponent from "../../../../../shared/button-component/ButtonComponent";
 
 export default class ChatBody extends PrototypeComponent {
 
@@ -7,8 +8,13 @@ export default class ChatBody extends PrototypeComponent {
         return {toggleProfile: null};
     }
 
+    static get inputs() {
+        return {
+            user: null
+        }
+    }
     static get components() {
-        return [];
+        return [ButtonComponent];
     }
 
     static get name() {
@@ -25,10 +31,6 @@ export default class ChatBody extends PrototypeComponent {
 
     static get listenEvents() {
         return {
-            click: {
-                method: 'changeState',
-                targets: ['search', 'menu']
-            },
             scroll: {
                 method: 'loadMessages',
                 targets: ['messages']
@@ -36,17 +38,23 @@ export default class ChatBody extends PrototypeComponent {
         }
     }
 
-    changeState(event) {
-        if (event.target === this.$references['menu']) {
-            this.$outputs.toggleProfile();
-        }
+    toggleProfile() {
+        this.$outputs.toggleProfile();
+    }
 
-        if (event.target === this.$references['search']) {
-            this.$tag.classList.toggle('show-search-input');
-        }
+    search() {
+        this.$tag.classList.toggle('show-search-input');
+    }
+
+    sendMessage() {
+
     }
 
     init() {
+        this.openChat = this.$inputs.openChat;
+        this.name = 'Bred Pitt';
+        this.time = 'last seen recently';
+        console.log(this.openChat);
         this.messages = [
             {
                 message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds' +
@@ -65,9 +73,7 @@ export default class ChatBody extends PrototypeComponent {
                 isRead: false
             },
             {
-                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds' +
-                    'dsdsdfd dfdfd gkadkLsjdj sdleifjj KSJAdksa nsnjdkakl lLKLldjkjaskdjk' +
-                    'sad sadasfaskjf :sasa asddsffsdds',
+                message: 'Lorem ipsum dollor assd sds sdsds',
                 type: 'message',
                 from: 'them',
                 time: '0:21',
@@ -92,9 +98,26 @@ export default class ChatBody extends PrototypeComponent {
                 isRead: false
             }
         ];
+
+        this.messages = this.messages.concat(this.messages);
+        this.messages = this.messages.concat(this.messages);
+        this.messages = this.messages.concat(this.messages);
+        this.messages = this.messages.concat(this.messages);
+    }
+
+    reset() {
+        this.$references['messages'].scrollTop = 1000;
     }
 
     loadMessages() {
 
+    }
+
+    viewInited() {
+        this.reset();
+    }
+    changesProperties() {
+        this.name = this.$inputs.user.name;
+        console.log(this.name);
     }
 }

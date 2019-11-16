@@ -3,7 +3,7 @@ import {makePropertyObservable} from "../functions/makePropertyObservable";
 
 function updateChildrenProperties(c, v) {
     c.inputs[this.componentPropertyName] = v;
-
+    console.log(this.componentPropertyName);
     if (c.changesProperties) {
         c.changesProperties(this.componentPropertyName);
     }
@@ -22,7 +22,5 @@ export default class CheckerProperties extends Emitter {
         Object.entries(listenProperties).forEach(([childrenProperty, parentProperty]) => objectData[childrenProperty] = parent[parentProperty]);
         instance.inputs = Object.assign({}, defaultParams, objectData);
     }
-
-
 }
 
