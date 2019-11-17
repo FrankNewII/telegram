@@ -38,7 +38,6 @@ export default class ChatsComponent extends PrototypeComponent {
     }
 
     click(event) {
-        // this.$outputs.loggedOut();
         if (event.target === this.$references['selectChat']) {
             this.$outputs.selectChat(event.target.dataset.forIndex);
         }

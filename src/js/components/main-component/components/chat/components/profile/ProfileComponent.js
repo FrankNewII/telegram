@@ -55,13 +55,13 @@ export default class ProfileComponent extends PrototypeComponent {
 
     init() {
         this.reset();
-        this.name = 'Karen Faren';
-        this.photo = 'Karen Faren';
-        this.bio = '25 yrs.o student';
-        this.bio = '25 yrs.o student';
-        this.username = 'KarenFarren';
-        this.phone = '+380123456789';
-        this.isOnline = true;
+        this.name = '';
+        this.photo = '';
+        this.bio = '';
+        this.username = '';
+        this.phone = '';
+        this.lastSeen = '';
+        this.isOnline = null;
         this.shared = [{
             type: 'image',
             src: 'ass',
@@ -115,7 +115,17 @@ export default class ProfileComponent extends PrototypeComponent {
     }
 
     changesProperties() {
+
         this.name = this.$inputs.user.name;
+        this.photo = this.$inputs.user.photo;
+        this.bio = this.$inputs.user.bio;
+        this.username = this.$inputs.user.username;
+        this.phone = this.$inputs.user.phoneNumber;
         this.isOnline = this.$inputs.user.online;
+        this.lastSeen = this.$inputs.user.lastSeen;
+
+        this.photo = this.$inputs.user.photo;
+        this.photo = this.$inputs.user.photo;
+
     }
 }

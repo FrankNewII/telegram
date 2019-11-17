@@ -14,12 +14,6 @@ export default class ButtonComponent extends PrototypeComponent {
         return 'button-component';
     }
 
-    static get inputs() {
-        return {
-            data: 'Button'
-        }
-    }
-
     static get outputs() {
         return {
             click: null
@@ -31,12 +25,11 @@ export default class ButtonComponent extends PrototypeComponent {
     }
 
     init() {
-        this.title = this.$inputs.title;
     }
 
     click(eve) {
         createWave(eve.offsetX, eve.offsetY, this.$references['waveContainer']);
-        // this.$outputs.click();
+        this.$outputs.click(event);
     }
 
 }

@@ -1,4 +1,5 @@
 import {makePropertyObservable} from "./functions/makePropertyObservable";
+import components from "./build-component/ComponentsBuilder";
 
 function updateNode(template) {
     return function (v) {
@@ -6,7 +7,7 @@ function updateNode(template) {
     }
 }
 
-function updateStructural(node, place) {
+function updateStructural(node, place, parentInstance) {
     const fragment = document.createDocumentFragment();
     let parent = null;
     return function (v) {
@@ -15,30 +16,46 @@ function updateStructural(node, place) {
             .forEach((v, i) => {
                 const newNode = node.cloneNode(true);
                 this.component.$getParsedTemplate(newNode, v, false);
+                components.rebuild(parentInstance.$class, newNode, v, parentInstance);
                 newNode.dataset.forIndex = i;
                 n = newNode;
                 fragment.appendChild(newNode)
             });
 
-        if (!parent) {
-            parent = place.parentElement;
-        }
-
-        parent.innerHTML = '';
-        parent.appendChild(fragment);
+        place.innerHTML = '';
+        place.appendChild(fragment);
     }
 }
 
-function updateClasses(node, previousClass) {
+function updateClasses(node, exp) {
+    let previousClass = null;
     return function (v) {
-        if (previousClass !== this.component[this.propertyName]) {
+        const calc = doExp(exp, this.component);
+
+        if (previousClass !== calc) {
             node.classList.remove(previousClass);
-            node.classList.add(this.component[this.propertyName]);
-            previousClass = this.component[this.propertyName];
+            console.log(previousClass, calc, node);
+            calc && node.classList.add(calc);
+            previousClass = calc;
         }
     }
 }
 
+function updateAttribute(node, attrValue, attrName) {
+    return function (v) {
+        if (attrValue !== this.component[this.propertyName]) {
+            node.removeAttribute(doExp(attrName, this.component));
+            node.setAttribute(attrName, this.component[this.propertyName]);
+            attrValue = this.component[this.propertyName];
+        }
+    }
+}
+
+
+function doExp(exp, ctx) {
+    const fn = new Function('', 'return ' + exp.replace(/(?<=^([^"']|("|')[^"']*("|'))*)[a-zA-Z]+([0-9]?)/g, (v) => 'this.' + v));
+    return fn.call(ctx);
+}
 export default class Render {
     get $template() {
         return this._$template;
@@ -89,6 +106,7 @@ export default class Render {
             } else {
                 const ref = children[i].dataset.elementRef;
                 const klass = children[i].dataset.class;
+                const attr = children[i].dataset.attr;
 
                 if (ref) {
                     this._$insertReferences(ref, children[i]);
@@ -96,11 +114,29 @@ export default class Render {
 
 
                 if (klass) {
-                    const klasses = data[klass].join ? data[klass].join(' ') : data[klass];
                     if (data instanceof Render) {
-                        makePropertyObservable(this, klass, children[i], updateClasses(children[i], klasses), klass);
+                        makePropertyObservable(this, klass, children[i], updateClasses(children[i], klass), klass);
                     }
-                    children[i].classList.add( klasses );
+                    const exp = doExp(klass, data);
+
+                    if (exp) {
+                        if (typeof (exp) === 'object') {
+                            children[i].classList.add.apply(children[i].classList, exp.filter(v => v) );
+                        } else {
+                            children[i].classList.add( exp )
+                        }
+
+                    }
+                }
+
+                if (attr) {
+                    const attrs = attr.split('::');
+
+                    if (data instanceof Render) {
+                        makePropertyObservable(this, attrs[1], children[i], updateAttribute(children[i], attrs[1], attrs[0]), klass);
+                    }
+
+                    children[i].setAttribute(attrs[0], data[attrs[1]]);
                 }
 
                 if (!this._$isStructural(children[i])) {
@@ -117,27 +153,35 @@ export default class Render {
     }
 
     _$checkStructuralDirectives(parentNode) {
-        const structuralDirectives = parentNode.querySelectorAll('[data-for]'); // todo: increase time twice
+        const conditional = parentNode.querySelectorAll('[data-if]');
 
-        if (structuralDirectives.length) {
-            structuralDirectives
-                .forEach(node => {
-                    const propertyName = node.dataset.for;
-                    let n = null;
-                    this[propertyName]
-                        .forEach((v, i) => {
-                            const newNode = node.cloneNode(true);
-                            this.$getParsedTemplate(newNode, v, false);
-                            newNode.dataset.forIndex = i;
-                            node.before(newNode);
-                            n = newNode;
-                        });
+        conditional.forEach( node => {
+            console.log(node.dataset.if);
+            const calc = doExp(node.dataset.if, this);
+            if (!calc) {
+                node.remove();
+            }
+        });
 
-                    makePropertyObservable(this, propertyName, node, updateStructural(node, n), propertyName);
+        const cycles = parentNode.querySelectorAll('[data-for]'); // todo: increase time twice
 
-                    node.parentElement.removeChild(node);
-                });
-        }
+        cycles
+            .forEach(node => {
+                const propertyName = node.dataset.for;
+                let n = null;
+                this[propertyName]
+                    .forEach((v, i) => {
+                        const newNode = node.cloneNode(true);
+                        this.$getParsedTemplate(newNode, v, false);
+                        newNode.dataset.forIndex = i;
+                        node.before(newNode);
+                        n = newNode;
+                    });
+
+                makePropertyObservable(this, propertyName, node, updateStructural(node, node.parentElement, this), propertyName);
+
+                node.parentElement.removeChild(node);
+            });
     }
 
     _$isStructural(node) {
@@ -165,5 +209,23 @@ export default class Render {
 
                 return (data[propertyName] !== undefined) ? data[propertyName] : v;
             });
+    }
+
+    _$insertReferences(referenceName, node) {
+        if (this.$references) {
+            if (this.$references[referenceName]) {
+
+                if (!this.$references[referenceName].push) {
+                    this.$references[referenceName] = [this.$references[referenceName]];
+                }
+
+                this.$references[referenceName].push(node);
+            } else {
+                this.$references[referenceName] = node;
+            }
+        } else {
+            this.$references = {};
+            this.$references[referenceName] = node;
+        }
     }
 }

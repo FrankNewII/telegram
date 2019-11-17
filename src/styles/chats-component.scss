@@ -67,6 +67,7 @@ chats-component {
     .user {
       font-size: 16px;
       line-height: 24px;
+      pointer-events: none;
 
       span {
         text-align: left;
@@ -98,10 +99,11 @@ chats-component {
       .message {
         padding: 3px 0;
         float: left;
+        text-align: left;
 
         .message-text {
           color: $text-gray;
-          text-align: left;
+
         }
       }
 
@@ -122,6 +124,15 @@ chats-component {
           background-color: rgb(114, 201, 107);
           color: #fff;
           border-radius: 11px;
+          display: none;
+
+          &.has-unread {
+            display: block;
+          }
+
+          &.muted {
+            background: rgb(197, 201, 204);
+          }
         }
       }
     }

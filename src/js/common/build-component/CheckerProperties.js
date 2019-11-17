@@ -3,7 +3,6 @@ import {makePropertyObservable} from "../functions/makePropertyObservable";
 
 function updateChildrenProperties(c, v) {
     c.inputs[this.componentPropertyName] = v;
-    console.log(this.componentPropertyName);
     if (c.changesProperties) {
         c.changesProperties(this.componentPropertyName);
     }

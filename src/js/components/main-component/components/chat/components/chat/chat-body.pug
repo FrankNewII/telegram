@@ -2,10 +2,11 @@
     .chat-menu
         .photo-container
             .photo
-                img(src='[photo]')
+                img(data-attr='src::photo')
             .creds
                 .name='[name]'
-                .status='[time]'
+                .status(data-class='isOnline')
+                    span='[time]'
         .menu-container
             .search(data-element-ref='search')
                 button-component(data-output-click='search').rounded
@@ -15,13 +16,15 @@
                     span.icon.icon-more_svg
     .messages(data-element-ref='messages')
         .message(data-for='messages')
-            .message-body(data-class='from')
+            .message-body(data-class='[from, type]')
                 .bottom-shadow
                 .side-shadow
+                span.picture
+                    img(data-attr="src::imageUrl")
                 span.message-text='[message]'
-                span.message-option
+                span(data-class='isRead ? "read" : ""').message-option
                     span='[time]'
-                    span(data-class='isRead')
+                    span.icon(data-class='isRead ? "icon-1check_svg" : "icon-2checks_svg"')
     .enter-message-field
         .message-container
             .shadows-container

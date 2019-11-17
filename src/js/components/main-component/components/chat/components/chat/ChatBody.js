@@ -51,58 +51,13 @@ export default class ChatBody extends PrototypeComponent {
     }
 
     init() {
-        this.openChat = this.$inputs.openChat;
-        this.name = 'Bred Pitt';
-        this.time = 'last seen recently';
-        console.log(this.openChat);
-        this.messages = [
-            {
-                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds' +
-                    'dsdsdfd dfdfd gkadkLsjdj sdleifjj KSJAdksa nsnjdkakl lLKLldjkjaskdjk' +
-                    'sad sadasfaskjf :sasa asddsffsdds',
-                type: 'message',
-                from: 'them',
-                time: '0:21',
-                isRead: false
-            },
-            {
-                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds',
-                type: 'message',
-                from: 'me',
-                time: '0:21',
-                isRead: false
-            },
-            {
-                message: 'Lorem ipsum dollor assd sds sdsds',
-                type: 'message',
-                from: 'them',
-                time: '0:21',
-                isRead: false
-            },
-            {
-                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds' +
-                    'dsdsdfd dfdfd gkadkLsjdj sdleifjj KSJAdksa nsnjdkakl lLKLldjkjaskdjk' +
-                    'sad sadasfaskjf :sasa asddsffsdds',
-                type: 'message',
-                from: 'them',
-                time: '0:21',
-                isRead: false
-            },
-            {
-                message: 'Lorem ipsum dollor assd sds sdsds fdf d fd f dfdf fsds' +
-                    'dsdsdfd dfdfd gkadkLsjdj sdleifjj KSJAdksa nsnjdkakl lLKLldjkjaskdjk' +
-                    'sad sadasfaskjf :sasa asddsffsdds',
-                type: 'message',
-                from: 'me',
-                time: '0:21',
-                isRead: false
-            }
-        ];
-
-        this.messages = this.messages.concat(this.messages);
-        this.messages = this.messages.concat(this.messages);
-        this.messages = this.messages.concat(this.messages);
-        this.messages = this.messages.concat(this.messages);
+        this.$tag.classList.add('no-selected-chat');
+        this.openChat = '';
+        this.name = '';
+        this.time = '';
+        this.isOnline = null;
+        this.photo = '';
+        this.messages = [];
     }
 
     reset() {
@@ -117,7 +72,11 @@ export default class ChatBody extends PrototypeComponent {
         this.reset();
     }
     changesProperties() {
+        this.$tag.classList.remove('no-selected-chat');
         this.name = this.$inputs.user.name;
-        console.log(this.name);
+        this.isOnline = this.$inputs.user.online;
+        this.photo = this.$inputs.user.photo;
+        this.messages = this.$inputs.user.chat;
+        this.time = this.$inputs.user.lastSeen;
     }
 }

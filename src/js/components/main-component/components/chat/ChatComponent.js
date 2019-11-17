@@ -4,6 +4,9 @@ import Messages from "../../../../services/Messages";
 import ChatBody from "./components/chat/ChatBody";
 import ChatsComponent from "./components/chats-component/ChatsComponent";
 import ProfileComponent from "./components/profile/ProfileComponent";
+import ButtonComponent from "../../../shared/button-component/ButtonComponent";
+import chats from "./chats";
+import users from "./users";
 
 export default class ChatComponent extends PrototypeComponent {
 
@@ -12,7 +15,7 @@ export default class ChatComponent extends PrototypeComponent {
     }
 
     static get components() {
-        return [ChatBody, ChatsComponent, ProfileComponent];
+        return [ChatBody, ChatsComponent, ProfileComponent, ButtonComponent];
     }
 
     static get name() {
@@ -28,67 +31,7 @@ export default class ChatComponent extends PrototypeComponent {
     }
 
     init() {
-        this._chats = this.chats = [{
-            name: 'Karen',
-            messages: 2,
-            writing: true,
-            lastMessage: 'Hi',
-            lastMassageTime: '00:20',
-            pinned: true,
-            photo: 'none',
-            online: false,
-            muted: true
-        }, {
-            name: 'Jack Rassel',
-            messages: 2,
-            writing: true,
-            lastMessage: 'Hi',
-            lastMassageTime: '00:20',
-            pinned: true,
-            photo: 'none',
-            online: true,
-            muted: true
-        }, {
-            name: 'Celin Dion',
-            messages: 2,
-            writing: true,
-            lastMessage: 'Hi',
-            lastMassageTime: '00:20',
-            pinned: true,
-            photo: 'none',
-            online: false,
-            muted: true
-        }, {
-            name: 'Bred Pitt',
-            messages: 2,
-            writing: true,
-            lastMessage: 'Hi',
-            lastMassageTime: '00:20',
-            pinned: true,
-            photo: 'none',
-            online: false,
-            muted: true
-        }, {
-            name: 'Silvester Stallone',
-            messages: 2,
-            writing: true,
-            lastMessage: 'Hi',
-            lastMassageTime: '00:20',
-            pinned: true,
-            photo: 'none',
-            online: true,
-            muted: true
-        }, {
-            name: 'Karen',
-            messages: 2,
-            writing: true,
-            lastMessage: 'Hi',
-            lastMassageTime: '00:20',
-            pinned: true,
-            photo: 'none',
-            online: false,
-            muted: true
-        }];
+        this._chats = this.chats = users;
 
         this._chats = this.chats = this.chats.concat(this.chats);
         this._chats = this.chats = this.chats.concat(this.chats);
@@ -106,9 +49,13 @@ export default class ChatComponent extends PrototypeComponent {
         this.$outputs.loggedOut();
     }
 
-    selectChat(i) {
-        console.log(this.chats[i]);
-        this.openChat = this.chats[i];
+    selectChat(event) {
+        const i = event.path.find(n => n.dataset.forIndex !== undefined).dataset.forIndex;
+        if (this.chats[i] !== this.openChat) {
+            this.chats[i].chat = chats.reverse().map(v => v);
+            this.openChat = this.chats[i];
+        }
+
     }
 
     searchChat(v) {

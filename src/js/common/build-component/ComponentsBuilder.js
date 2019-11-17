@@ -11,6 +11,9 @@ class ComponentsBuilder extends CheckerProperties {
     }
 
     build(klass, tag, parent) {
+        if (tag.inited) return;
+        tag.inited = true;
+
         if (!klass.name) throw new Error('PrototypeComponent must have property "name"');
 
         if (!klass instanceof PrototypeComponent) throw new Error('PrototypeComponent should inherit PrototypeComponent or implement his interface');
@@ -20,13 +23,24 @@ class ComponentsBuilder extends CheckerProperties {
         this._prepareDom(instance, klass, tag)
             ._injectDependencies(klass, instance)
             ._bindInputs(klass, tag, instance, parent)
-            ._bidOutputs(klass, parent, instance, tag);
+            ._bindOutputs(klass, parent, instance, tag);
 
         if (instance.init) instance.init();
         instance.$render(tag);
         tag.component = instance;
         if (klass.listenEvents) this.appendEventsListeners(tag, klass.listenEvents, instance);
         if (klass.components) this._searchChildComponents(klass.components, instance, tag);
+        while(this.queue.hasItems()) {
+            const params = this.queue.get();
+            this.build.apply(this, params);
+            if (params[0].viewInited) instance.viewInited();
+        }
+        return instance;
+    }
+
+    rebuild(klass, tag, parent, parentClass, instance) {
+
+        if (klass.components) this._searchChildComponents(klass.components, parentClass, tag);
         while(this.queue.hasItems()) {
             const params = this.queue.get();
             this.build.apply(this, params);
@@ -58,11 +72,11 @@ class ComponentsBuilder extends CheckerProperties {
         return this;
     }
 
-    _bindInputs(klass, tag, instance, parent) {
+    _bindInputs(klass, tag, instance, parent, doAddListeners = true) {
         if (klass.inputs && parent) {
             const propertiesAliases = this.getBoundAttributes(tag, klass.inputs, false);
             this._parentsPropertiesData(instance, parent, propertiesAliases, klass.inputs);
-            this._parentsListenProperties(instance, parent, propertiesAliases);
+            doAddListeners && this._parentsListenProperties(instance, parent, propertiesAliases);
             instance._$properitesAliases = propertiesAliases;
             instance._$parent = parent;
         }
@@ -70,7 +84,7 @@ class ComponentsBuilder extends CheckerProperties {
         return this;
     }
 
-    _bidOutputs(klass, parent, instance, tag) {
+    _bindOutputs(klass, parent, instance, tag) {
         if (klass.outputs && parent) {
             const propertiesAliases = this.getBoundAttributes(tag, klass.outputs);
             this.parentsListenFunctions(instance, parent, propertiesAliases);
@@ -79,7 +93,7 @@ class ComponentsBuilder extends CheckerProperties {
 
     _prepareDom(instance, klass, tag) {
         instance.$template = klass.template;
-        instance.$init(tag);
+        instance.$init(tag, klass);
 
         return this;
     }

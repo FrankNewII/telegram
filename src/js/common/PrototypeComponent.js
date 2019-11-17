@@ -22,8 +22,9 @@ export default class PrototypeComponent extends Render {
         return this.dependencies;
     }
 
-    $init(tag) {
+    $init(tag, klass) {
         this.$tag = tag;
+        this.$class = klass;
         const fr = document.createDocumentFragment();
         const children = tag.childNodes;
 
@@ -31,23 +32,5 @@ export default class PrototypeComponent extends Render {
 
         this.innerNodes = fr;
         this._$previousParsedtemplate = null;
-    }
-
-    _$insertReferences(referenceName, node) {
-        if (this.$references) {
-            if (this.$references[referenceName]) {
-
-                if (!this.$references[referenceName].push) {
-                    this.$references[referenceName] = [this.$references[referenceName]];
-                }
-
-                this.$references[referenceName].push(node);
-            } else {
-                this.$references[referenceName] = node;
-            }
-        } else {
-            this.$references = {};
-            this.$references[referenceName] = node;
-        }
     }
 }
