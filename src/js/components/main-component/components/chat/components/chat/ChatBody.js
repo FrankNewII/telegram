@@ -46,10 +46,6 @@ export default class ChatBody extends PrototypeComponent {
         this.$tag.classList.toggle('show-search-input');
     }
 
-    sendMessage() {
-
-    }
-
     init() {
         this.$tag.classList.add('no-selected-chat');
         this.openChat = '';

@@ -9,7 +9,6 @@ function updateNode(template) {
 
 function updateStructural(node, place, parentInstance) {
     const fragment = document.createDocumentFragment();
-    let parent = null;
     return function (v) {
         let n = null;
         this.component[this.propertyName]
@@ -121,9 +120,9 @@ export default class Render {
 
                     if (exp) {
                         if (typeof (exp) === 'object') {
-                            children[i].classList.add.apply(children[i].classList, exp.filter(v => v) );
+                            children[i].classList.add.apply(children[i].classList, exp.filter(v => v));
                         } else {
-                            children[i].classList.add( exp )
+                            children[i].classList.add(exp)
                         }
 
                     }
@@ -155,8 +154,7 @@ export default class Render {
     _$checkStructuralDirectives(parentNode) {
         const conditional = parentNode.querySelectorAll('[data-if]');
 
-        conditional.forEach( node => {
-            console.log(node.dataset.if);
+        conditional.forEach(node => {
             const calc = doExp(node.dataset.if, this);
             if (!calc) {
                 node.remove();
