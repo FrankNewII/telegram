@@ -35,6 +35,7 @@ export default class ChatComponent extends PrototypeComponent {
         this._chats = this.chats = users;
 
         this._chats = this.chats = this.chats.concat(this.chats);
+        this._chats = this.chats = this.chats.concat(this.chats);
 
         this.openChat = '';
     }
