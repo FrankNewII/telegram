@@ -1,21 +1,22 @@
 .chat-container
     .chat
         chats-component(data-output-loggedOut='loggedOut' data-output-selectChat='selectChat' data-output-searchChat='searchChat')
-            .buttons(data-for='chats')
-                button-component(data-output-click='selectChat').user-chat
-                    .user
-                        .photo
-                            img(data-attr='src::photo')
-                            .isOnline(data-class='online')
-                        .message
-                            .name
-                                span='[name]'
-                            .message-text(data-class='typing && "typing"')
-                                span='[lastMessage]'
+            chats-container-component
+                .buttons(data-for='chats')
+                    button-component(data-output-click='selectChat').user-chat
+                        .user
+                            .photo
+                                img(data-attr='src::photo')
+                                .isOnline(data-class='online')
+                            .message
+                                .name
+                                    span='[name]'
+                                .message-text(data-class='typing && "typing"')
+                                    span='[lastMessage]'
 
-                        .message-params
-                            .time='[lastMassageTime]'
-                            span.unread(data-class='[messages ? "has-unread" : "", muted ? "muted" : ""]')='[messages]'
+                            .message-params
+                                .time='[lastMassageTime]'
+                                span.unread(data-class='[messages ? "has-unread" : "", muted ? "muted" : ""]')='[messages]'
 
 
 

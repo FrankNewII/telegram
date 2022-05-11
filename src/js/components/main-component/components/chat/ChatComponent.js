@@ -7,6 +7,7 @@ import ProfileComponent from "./components/profile/ProfileComponent";
 import ButtonComponent from "../../../shared/button-component/ButtonComponent";
 import chats from "./chats";
 import users from "./users";
+import ChatsContainerComponent from "./components/chats-container-component/ChatsContainerComponent";
 
 export default class ChatComponent extends PrototypeComponent {
 
@@ -15,7 +16,7 @@ export default class ChatComponent extends PrototypeComponent {
     }
 
     static get components() {
-        return [ChatBody, ChatsComponent, ProfileComponent, ButtonComponent];
+        return [ChatBody, ChatsComponent, ProfileComponent, ButtonComponent, ChatsContainerComponent];
     }
 
     static get name() {
@@ -33,9 +34,6 @@ export default class ChatComponent extends PrototypeComponent {
     init() {
         this._chats = this.chats = users;
 
-        this._chats = this.chats = this.chats.concat(this.chats);
-        this._chats = this.chats = this.chats.concat(this.chats);
-        this._chats = this.chats = this.chats.concat(this.chats);
         this._chats = this.chats = this.chats.concat(this.chats);
 
         this.openChat = '';
@@ -55,7 +53,6 @@ export default class ChatComponent extends PrototypeComponent {
             this.chats[i].chat = chats.reverse().map(v => v);
             this.openChat = this.chats[i];
         }
-
     }
 
     searchChat(v) {
